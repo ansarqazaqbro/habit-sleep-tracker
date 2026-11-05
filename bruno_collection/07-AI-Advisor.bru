@@ -1,0 +1,53 @@
+meta {
+  name: 7. Запрос к AI-консультанту (Google Gemini)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/ai/advisor
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "avg_sleep_hours": 7.2,
+    "avg_sleep_quality": 4.1,
+    "habit_completion_percent": 78,
+    "question": "Как мне стабилизировать подъём в 07:00 и не пропускать утренние привычки?"
+  }
+}
+
+tests {
+  test("Статус 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Получены персональные рекомендации и инсайты на русском языке", function() {
+    const body = res.getBody();
+    expect(body).to.have.property("reply");
+    expect(body.insights).to.be.an("array");
+    expect(body.recommendations).to.be.an("array");
+    expect(body).to.have.property("score");
+  });
+}
+
+docs {
+  # POST /api/ai/advisor
+  Отправляет текущую статистику пользователя (среднее время сна, качество, процент выполненных привычек за неделю) и вопрос в **Google Gemini API** с системным промптом персонального консультанта по сну и продуктивности.
+  Возвращает структурированный JSON:
+  - `reply` — персональный ответ консультанта,
+  - `insights` — наблюдения по корреляции сна и привычек,
+  - `recommendations` — конкретные шаги на ближайшие дни,
+  - `score` — итоговый балл баланса (0–100).
+}

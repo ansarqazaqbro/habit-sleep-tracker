@@ -1,0 +1,42 @@
+meta {
+  name: 4. Отметка выполнения привычки (Toggle Streak)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/habits/{{habitId}}/toggle
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {}
+}
+
+tests {
+  test("Статус 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Обновлён статус completed_today и пересчитан стрик", function() {
+    const body = res.getBody();
+    expect(body).to.have.property("id");
+    expect(body).to.have.property("completed_today");
+    expect(body).to.have.property("streak_count");
+  });
+}
+
+docs {
+  # POST /api/habits/{id}/toggle
+  Переключает выполнение привычки за указанную дату (по умолчанию — сегодня) в таблице `habit_logs` и пересчитывает `streak_count` и `best_streak` через `StreakService`.
+}

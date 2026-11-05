@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Lumen — Habit & Sleep Tracker API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

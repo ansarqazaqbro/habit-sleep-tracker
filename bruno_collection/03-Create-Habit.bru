@@ -1,0 +1,54 @@
+meta {
+  name: 3. Создание новой привычки
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/habits
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "title": "Вечерняя прогулка без телефона 30 минут",
+    "target_frequency": 7,
+    "accent": "#7ee0ff",
+    "category_ids": [1, 2]
+  }
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body && body.id) {
+    bru.setEnvVar("habitId", body.id);
+  }
+}
+
+tests {
+  test("Привычка создана (201 Created)", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("В ответе присутствуют id, title и категории", function() {
+    const body = res.getBody();
+    expect(body).to.have.property("id");
+    expect(body).to.have.property("title", "Вечерняя прогулка без телефона 30 минут");
+  });
+}
+
+docs {
+  # POST /api/habits
+  Создаёт новую привычку и синхронизирует категории в промежуточной таблице `category_habit` внутри транзакции БД.
+  После создания ID новой привычки автоматически сохраняется в переменную `{{habitId}}` для следующего запроса `Toggle`.
+}

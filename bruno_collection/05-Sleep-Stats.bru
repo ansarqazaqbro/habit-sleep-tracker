@@ -1,0 +1,42 @@
+meta {
+  name: 5. Статистика и аналитика сна (7 дней)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/sleep/stats
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("Статус 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Возвращены метрики сна и массив chart на 7 дней", function() {
+    const body = res.getBody();
+    expect(body).to.have.property("average_hours");
+    expect(body).to.have.property("average_quality");
+    expect(body).to.have.property("regularity");
+    expect(body.chart).to.be.an("array").with.lengthOf(7);
+  });
+}
+
+docs {
+  # GET /api/sleep/stats
+  Возвращает аналитику сна за последние 7 дней (`SleepAnalyticsService`):
+  - `average_hours` и `average_minutes` — средняя длительность сна,
+  - `average_quality` — среднее качество по 5-балльной шкале,
+  - `regularity` — индекс регулярности отхода ко сну (доля ночей в пределах ±30 минут от медианы),
+  - `chart` — готовый ряд из 7 дней для графика Recharts.
+}

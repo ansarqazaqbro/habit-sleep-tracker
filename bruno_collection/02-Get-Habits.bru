@@ -1,0 +1,48 @@
+meta {
+  name: 2. Список привычек со стриками
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/habits
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (Array.isArray(body) && body.length > 0 && body[0].id) {
+    bru.setEnvVar("habitId", body[0].id);
+  }
+}
+
+tests {
+  test("Статус 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Возвращён массив привычек со стриками", function() {
+    const body = res.getBody();
+    expect(body).to.be.an("array");
+    expect(body.length).to.be.greaterThan(0);
+    expect(body[0]).to.have.property("streak_count");
+    expect(body[0]).to.have.property("best_streak");
+  });
+}
+
+docs {
+  # GET /api/habits
+  Возвращает список привычек текущего пользователя вместе с:
+  - текущим стриком (`streak_count`) и рекордом (`best_streak`),
+  - флагом выполнения за сегодня (`completed_today`),
+  - привязанными категориями (`categories`).
+}

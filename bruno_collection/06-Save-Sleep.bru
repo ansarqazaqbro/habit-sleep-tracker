@@ -1,0 +1,47 @@
+meta {
+  name: 6. Сохранение записи о сне
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/sleep
+  body: json
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "bed_time": "23:15",
+    "wake_time": "07:15",
+    "quality_rating": 5,
+    "notes": "Спал отлично, проветрил комнату перед сном"
+  }
+}
+
+tests {
+  test("Запись о сне сохранена (200/201)", function() {
+    expect([200, 201]).to.include(res.getStatus());
+  });
+
+  test("Длительность сна автоматически рассчитана (480 мин = 8 ч)", function() {
+    const body = res.getBody();
+    expect(body).to.have.property("duration_minutes", 480);
+    expect(body).to.have.property("quality_rating", 5);
+  });
+}
+
+docs {
+  # POST /api/sleep
+  Создаёт или обновляет (`updateOrCreate` по дате) запись о сне в таблице `sleep_logs`.
+  Бэкенд автоматически рассчитывает длительность сна через переход полуночи (`23:15` → `07:15` = `480` минут).
+}
