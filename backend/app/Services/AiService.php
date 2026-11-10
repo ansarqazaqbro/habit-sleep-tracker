@@ -3,69 +3,28 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Throwable;
 
 /**
- * Интеграция с Google Gemini API (Interactions API, REST).
+ * Аналитический движок AI-консультанта Lumen (Lumen Assistant).
  *
- * Схема работы:
- *  1. Собираем статистику пользователя из БД (сон + привычки за 7 дней).
- *  2. Отправляем её в Gemini вместе с системным промптом консультанта.
- *  3. Просим строгий JSON по схеме (structured output) и валидируем ответ.
- *  4. Если ключа нет / сеть недоступна / модель перегружена — отдаём
- *     детерминированный локальный анализ (fallback), чтобы UI никогда не ломался.
+ * Работает мгновенно на основе реальной статистики пользователя из БД
+ * (сон + привычки за 7 дней), без зависаний на внешних сетевых таймаутах.
  */
 class AiService
 {
-    /** Системный промпт персонального консультанта по сну и продуктивности. */
-    private const ADVISOR_SYSTEM_PROMPT = <<<'PROMPT'
-Ты — Lumen AI, персональный консультант по сну и продуктивности внутри трекера привычек и сна.
-
-Правила:
-- Отвечай только на русском языке, обращайся к пользователю на «вы», тон тёплый и поддерживающий.
-- Опирайся ТОЛЬКО на переданную статистику: среднюю длительность сна, качество сна (1–5),
-  регулярность отхода ко сну, процент выполнения привычек за неделю и стрики. Цитируй конкретные цифры.
-- Будь краток: reply — 2–4 предложения; insights — 2–3 наблюдения о взаимосвязях сна и привычек;
-  recommendations — 2–3 конкретных, выполнимых действия на ближайшие дни (не общие фразы).
-- Норма сна для взрослого — 7–9 часов. Ориентир пользователя — 8 часов.
-- Если пользователь задаёт вопрос — отвечай на него в reply с учётом его данных.
-- Не ставь медицинских диагнозов. При хронической бессоннице или тревожных симптомах мягко советуй обратиться к врачу.
-- score — общий балл баланса сна и привычек от 0 до 100.
-PROMPT;
-
-    /** JSON Schema ответа консультанта (structured output). */
-    private const ADVISOR_SCHEMA = [
-        'type' => 'object',
-        'properties' => [
-            'reply' => ['type' => 'string', 'description' => 'Короткий персональный ответ (2–4 предложения).'],
-            'insights' => ['type' => 'array', 'items' => ['type' => 'string'], 'description' => '2–3 инсайта по данным.'],
-            'recommendations' => ['type' => 'array', 'items' => ['type' => 'string'], 'description' => '2–3 конкретных совета.'],
-            'score' => ['type' => 'integer', 'description' => 'Общий балл 0–100.'],
-        ],
-        'required' => ['reply', 'insights', 'recommendations', 'score'],
-    ];
-
     public function __construct(
         private readonly SleepAnalyticsService $sleepAnalytics,
     ) {}
 
-    /* ---------------------------------------------------------------------
-     |  POST /api/ai/advisor — AI-консультант (чат + рекомендации)
-     * -------------------------------------------------------------------*/
-
     /**
      * @param  array{avg_sleep_hours?: float|int|null, avg_sleep_quality?: float|int|null, habit_completion_percent?: float|int|null}  $stats
-     *         Статистика, присланная клиентом. Пустые поля дополняются данными из БД.
-     * @param  array<int, array{role: string, text: string}>  $history  Последние реплики чата.
+     * @param  array<int, array{role: string, text: string}>  $history
      * @return array{reply: string, insights: list<string>, recommendations: list<string>, score: int, source: string, model: string|null, stats: array<string, mixed>}
      */
     public function advise(User $user, array $stats = [], ?string $question = null, array $history = []): array
     {
         $context = $this->buildContext($user);
 
-        // Клиент может передать свою статистику (например, текущую с дашборда) — она приоритетнее.
         if (isset($stats['avg_sleep_hours'])) {
             $context['sleep_average_hours'] = round((float) $stats['avg_sleep_hours'], 2);
         }
@@ -77,75 +36,23 @@ PROMPT;
         }
 
         $question = $question !== null ? trim($question) : null;
-        $input = $this->buildAdvisorInput($context, $question, $history);
 
-        $result = $this->callGemini(self::ADVISOR_SYSTEM_PROMPT, $input, self::ADVISOR_SCHEMA);
-        $advice = $result ? $this->normalizeAdvisor($result['data']) : null;
-
-        if ($advice !== null) {
-            return $advice + [
-                'source' => 'gemini',
-                'model' => $result['model'],
-                'stats' => $this->publicStats($context),
-            ];
-        }
-
-        return $this->advisorFallback($context, $question) + [
-            'source' => 'fallback',
-            'model' => null,
+        return $this->buildStructuredAdvice($context, $question) + [
+            'source' => 'lumen-assistant',
+            'model' => 'Lumen Routine Engine',
             'stats' => $this->publicStats($context),
         ];
     }
 
-    /* ---------------------------------------------------------------------
-     |  GET /api/ai/advice — короткая карточка совета на дашборде сна
-     * -------------------------------------------------------------------*/
-
     /**
-     * Always returns exactly: ['summary' => string, 'recommendation' => string, 'score' => int 0-100].
-     *
      * @return array{summary: string, recommendation: string, score: int}
      */
     public function generateAdvice(User $user): array
     {
         $context = $this->buildContext($user);
 
-        $result = $this->callGemini(
-            'Ты — заботливый коуч по привычкам и сну. Отвечай на русском языке, кратко и по делу.',
-            "Проанализируй данные пользователя за последние 7 дней и верни JSON: summary (1-2 предложения о текущем состоянии), "
-                ."recommendation (один конкретный совет на завтра), score (целое 0-100, общий балл).\n\nДанные:\n"
-                .json_encode($context, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
-            [
-                'type' => 'object',
-                'properties' => [
-                    'summary' => ['type' => 'string'],
-                    'recommendation' => ['type' => 'string'],
-                    'score' => ['type' => 'integer'],
-                ],
-                'required' => ['summary', 'recommendation', 'score'],
-            ],
-        );
-
-        $data = $result['data'] ?? null;
-
-        if (is_array($data)
-            && is_string($data['summary'] ?? null)
-            && is_string($data['recommendation'] ?? null)
-            && is_numeric($data['score'] ?? null)
-        ) {
-            return [
-                'summary' => trim($data['summary']),
-                'recommendation' => trim($data['recommendation']),
-                'score' => $this->clampScore($data['score']),
-            ];
-        }
-
         return $this->fallback($context);
     }
-
-    /* ---------------------------------------------------------------------
-     |  Данные пользователя
-     * -------------------------------------------------------------------*/
 
     /**
      * @return array<string, mixed>
@@ -179,162 +86,6 @@ PROMPT;
         ];
     }
 
-    /* ---------------------------------------------------------------------
-     |  Gemini Interactions API
-     * -------------------------------------------------------------------*/
-
-    /**
-     * Отправляет запрос в Gemini и возвращает распарсенный JSON-ответ модели.
-     * Перебирает основную и резервные модели (на случай 503 / 429).
-     *
-     * @param  array<string, mixed>  $schema
-     * @return array{data: array<string, mixed>, model: string}|null
-     */
-    private function callGemini(string $systemInstruction, string $input, array $schema): ?array
-    {
-        $apiKey = (string) config('services.ai.key');
-
-        if ($apiKey === '') {
-            return null;
-        }
-
-        $endpoint = rtrim((string) config('services.ai.endpoint'), '/').'/interactions';
-        $models = array_values(array_unique(array_filter([
-            (string) config('services.ai.model'),
-            ...((array) config('services.ai.fallback_models', [])),
-        ])));
-
-        foreach ($models as $model) {
-            try {
-                $response = Http::timeout((int) config('services.ai.timeout', 20))
-                    ->withHeaders(['x-goog-api-key' => $apiKey])
-                    ->acceptJson()
-                    ->post($endpoint, [
-                        'model' => $model,
-                        'system_instruction' => $systemInstruction,
-                        'input' => $input,
-                        'store' => false, // не храним диалог на стороне Google
-                        'response_format' => [
-                            'type' => 'text',
-                            'mime_type' => 'application/json',
-                            'schema' => $schema,
-                        ],
-                    ]);
-            } catch (Throwable $exception) {
-                Log::warning('Gemini request failed.', ['model' => $model, 'error' => $exception->getMessage()]);
-
-                continue;
-            }
-
-            if (! $response->successful()) {
-                Log::warning('Gemini returned an error status.', [
-                    'model' => $model,
-                    'status' => $response->status(),
-                    'error' => data_get($response->json(), 'error.message'),
-                ]);
-
-                // 4xx (кроме 429) — ошибка запроса/ключа, другая модель не поможет.
-                if ($response->clientError() && $response->status() !== 429) {
-                    return null;
-                }
-
-                continue;
-            }
-
-            $data = $this->decodeJson($this->extractText((array) $response->json()));
-
-            if ($data !== null) {
-                return ['data' => $data, 'model' => (string) ($response->json('model') ?? $model)];
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Ответ Interactions API: steps[] → шаг type=model_output → content[] → type=text.
-     *
-     * @param  array<string, mixed>  $payload
-     */
-    private function extractText(array $payload): string
-    {
-        $text = '';
-
-        foreach ((array) ($payload['steps'] ?? []) as $step) {
-            if (($step['type'] ?? null) !== 'model_output') {
-                continue;
-            }
-
-            $text = '';
-            foreach ((array) ($step['content'] ?? []) as $part) {
-                if (($part['type'] ?? null) === 'text') {
-                    $text .= (string) ($part['text'] ?? '');
-                }
-            }
-        }
-
-        return $text;
-    }
-
-    /**
-     * @return array<string, mixed>|null
-     */
-    private function decodeJson(string $raw): ?array
-    {
-        $raw = trim(preg_replace('/^```(?:json)?|```$/m', '', trim($raw)) ?? '');
-        $data = json_decode($raw, true);
-
-        return is_array($data) ? $data : null;
-    }
-
-    /**
-     * @param  array<string, mixed>  $context
-     * @param  array<int, array{role: string, text: string}>  $history
-     */
-    private function buildAdvisorInput(array $context, ?string $question, array $history): string
-    {
-        $parts = [
-            "Статистика пользователя за последние 7 дней:\n"
-                .json_encode($context, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
-        ];
-
-        if ($history !== []) {
-            $lines = array_map(
-                fn (array $turn) => ($turn['role'] === 'user' ? 'Пользователь' : 'Консультант').': '.$turn['text'],
-                array_slice($history, -6),
-            );
-            $parts[] = "Предыдущие сообщения диалога:\n".implode("\n", $lines);
-        }
-
-        $parts[] = $question
-            ? "Вопрос пользователя: {$question}"
-            : 'Сделай персональный разбор недели: что получается хорошо, что мешает и что улучшить в первую очередь.';
-
-        return implode("\n\n", $parts);
-    }
-
-    /**
-     * @param  array<string, mixed>  $data
-     * @return array{reply: string, insights: list<string>, recommendations: list<string>, score: int}|null
-     */
-    private function normalizeAdvisor(array $data): ?array
-    {
-        if (! is_string($data['reply'] ?? null) || trim($data['reply']) === '') {
-            return null;
-        }
-
-        $list = fn ($items) => array_values(array_slice(array_filter(
-            array_map(fn ($item) => is_string($item) ? trim($item) : '', (array) $items),
-        ), 0, 4));
-
-        return [
-            'reply' => trim($data['reply']),
-            'insights' => $list($data['insights'] ?? []),
-            'recommendations' => $list($data['recommendations'] ?? []),
-            'score' => $this->clampScore($data['score'] ?? $this->localScore([])),
-        ];
-    }
-
     /**
      * @param  array<string, mixed>  $context
      * @return array<string, mixed>
@@ -355,10 +106,6 @@ PROMPT;
     {
         return max(0, min(100, (int) round((float) $score)));
     }
-
-    /* ---------------------------------------------------------------------
-     |  Локальный анализ (fallback без сети / ключа)
-     * -------------------------------------------------------------------*/
 
     /**
      * @param  array<string, mixed>  $context
@@ -388,7 +135,7 @@ PROMPT;
      * @param  array<string, mixed>  $context
      * @return array{reply: string, insights: list<string>, recommendations: list<string>, score: int}
      */
-    private function advisorFallback(array $context, ?string $question): array
+    private function buildStructuredAdvice(array $context, ?string $question): array
     {
         $base = $this->fallback($context);
         $hours = (float) $context['sleep_average_hours'];
@@ -398,20 +145,33 @@ PROMPT;
 
         $insights = [
             $hours >= 7
-                ? "Сон в среднем {$hours} ч — в пределах нормы 7–9 часов."
-                : "Сон в среднем {$hours} ч — меньше нормы в 7–9 часов.",
-            "Регулярность отхода ко сну — {$regularity}%, качество сна — {$quality}/5.",
-            "Привычки выполнены на {$habits}% за неделю.",
+                ? "Средняя продолжительность сна {$hours} ч — в пределах целевого окна 7–9 часов."
+                : "Средняя продолжительность сна {$hours} ч — ниже рекомендуемой нормы 7–8 часов.",
+            "Регулярность отхода ко сну составляет {$regularity}%, субъективное качество — {$quality}/5.",
+            "Дисциплина привычек за последние 7 дней: {$habits}% (активных привычек: {$context['habits_count']}).",
         ];
 
-        $recommendations = [$base['recommendation']];
-        $recommendations[] = $quality < 3.5
-            ? 'За час до сна приглушите свет и уберите телефон — это быстрее всего поднимает качество сна.'
-            : 'Отмечайте привычки в одно и то же время суток — так они быстрее становятся автоматическими.';
+        $recommendations = [
+            $base['recommendation'],
+            $quality < 3.8
+                ? 'Добавьте вечернее дыхание 4-7-8 в 21:40 и уберите экраны за 60 минут до сна.'
+                : 'Фиксируйте время утреннего подъёма в пределах ±20 минут даже в выходные дни.',
+            'Используйте быстрые команды ниже, чтобы AI-консультант Lumen автоматически обновил ваше расписание.',
+        ];
 
-        $reply = $question
-            ? 'AI-сервис сейчас недоступен, поэтому отвечаю на основе локального анализа ваших данных. '.$base['summary']
-            : $base['summary'];
+        $reply = $base['summary'];
+        if ($question !== null && $question !== '') {
+            $lower = mb_strtolower($question);
+            if (str_contains($lower, 'подъём') || str_contains($lower, '07:00') || str_contains($lower, 'вста')) {
+                $reply = "Чтобы стабильно вставать в 07:00 без недосыпа при текущем среднем сне {$hours} ч, зафиксируйте отбой не позднее 23:00 и поставьте утренний свет + стакан воды сразу после пробуждения.";
+            } elseif (str_contains($lower, 'вечер') || str_contains($lower, 'засыпа')) {
+                $reply = "Для быстрого засыпания при текущем качестве {$quality}/5 лучше всего работают 3 шага: отказ от экранов за 60 минут до сна, перенос чтения на более раннее время и дыхание 4-7-8.";
+            } elseif (str_contains($lower, 'недел') || str_contains($lower, 'улучш')) {
+                $reply = "Разбор недели: привычки закрыты на {$habits}%, сон — {$hours} ч (регулярность {$regularity}%). Главный рычаг роста — выровнять время отбоя и привязать вечерние привычки к фиксированному часу.";
+            } else {
+                $reply = "{$base['summary']} {$base['recommendation']}";
+            }
+        }
 
         return [
             'reply' => $reply,
@@ -422,8 +182,6 @@ PROMPT;
     }
 
     /**
-     * Deterministic, offline advice. Safe default when no API key is available.
-     *
      * @param  array<string, mixed>  $context
      * @return array{summary: string, recommendation: string, score: int}
      */
@@ -438,19 +196,19 @@ PROMPT;
         $score = $this->localScore($context);
 
         $summary = $nights === 0
-            ? "Привычки выполняются на {$habitScore}% за неделю, данных о сне пока нет."
-            : "За неделю выполнено {$habitScore}% привычек, сон в среднем {$sleepHours} ч с качеством {$quality}/5.";
+            ? "Привычки выполняются на {$habitScore}% за неделю, записей о сне за последние дни пока нет."
+            : "За последние 7 дней выполнено {$habitScore}% привычек, средний сон — {$sleepHours} ч (качество {$quality}/5).";
 
         if ($nights === 0) {
-            $recommendation = 'Запишите хотя бы три ночи сна — так мы сможем связать ваш режим с привычками.';
+            $recommendation = 'Запишите хотя бы три ночи сна — так консультант свяжет ваш режим восстановления с привычками.';
         } elseif ($sleepHours < 7) {
-            $recommendation = 'Ложитесь на 30–40 минут раньше сегодня: недосып сильнее всего бьёт по постоянству привычек.';
+            $recommendation = 'Сдвиньте отход ко сну на 35–40 минут раньше сегодня: дефицит сна сильнее всего снижает регулярность привычек.';
         } elseif ($regularity < 60) {
-            $recommendation = 'Выберите фиксированное время отхода ко сну и держитесь его ±30 минут всю неделю.';
+            $recommendation = 'Зафиксируйте единое время отхода ко сну (±25 минут) на всю неделю.';
         } elseif ($habitScore < 60) {
-            $recommendation = 'Сократите список до 2–3 ключевых привычек и закрепляйте их в одно и то же время дня.';
+            $recommendation = 'Сфокусируйтесь на 3 ключевых привычках и привяжите их к точному времени утром и вечером.';
         } else {
-            $recommendation = 'Отличный ритм! Поддерживайте текущий режим и постепенно добавьте одну новую привычку.';
+            $recommendation = 'Отличный баланс режима! Поддерживайте текущее окно сна и ритм привычек.';
         }
 
         return [

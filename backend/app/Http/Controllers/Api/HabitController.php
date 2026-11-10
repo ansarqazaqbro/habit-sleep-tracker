@@ -7,50 +7,26 @@ use App\Http\Requests\StoreHabitRequest;
 use App\Http\Requests\ToggleHabitRequest;
 use App\Http\Resources\HabitResource;
 use App\Models\Habit;
-use App\Models\HabitLog;
-use App\Services\StreakService;
+use App\Services\HabitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class HabitController extends Controller
 {
-    public function __construct(private readonly StreakService $streaks) {}
+    public function __construct(private readonly HabitService $habits) {}
 
     public function index(Request $request): AnonymousResourceCollection
     {
-        $today = now()->toDateString();
-
-        $habits = $request->user()
-            ->habits()
-            ->with('categories')
-            ->withExists([
-                'logs as completed_today' => fn ($query) => $query
-                    ->whereDate('completed_at', $today)
-                    ->where('status', HabitLog::STATUS_COMPLETED),
-            ])
-            ->orderBy('id')
-            ->get();
-
-        return HabitResource::collection($habits);
+        return HabitResource::collection($this->habits->listFor($request->user()));
     }
 
     public function store(StoreHabitRequest $request): HabitResource
     {
-        $data = $request->validated();
-        $categoryIds = $data['category_ids'] ?? [];
-        unset($data['category_ids']);
+        $habit = $this->habits->create($request->user(), $request->validated());
 
-        $habit = DB::transaction(function () use ($request, $data, $categoryIds) {
-            $habit = $request->user()->habits()->create($data);
-            $habit->categories()->sync($categoryIds);
-
-            return $habit;
-        });
-
-        return new HabitResource($habit->refresh()->load('categories'));
+        return new HabitResource($habit);
     }
 
     public function show(Habit $habit): HabitResource
@@ -64,19 +40,7 @@ class HabitController extends Controller
     {
         Gate::authorize('update', $habit);
 
-        $data = $request->validated();
-        $categoryIds = $data['category_ids'] ?? null;
-        unset($data['category_ids']);
-
-        DB::transaction(function () use ($habit, $data, $categoryIds) {
-            $habit->update($data);
-
-            if ($categoryIds !== null) {
-                $habit->categories()->sync($categoryIds);
-            }
-        });
-
-        return new HabitResource($habit->refresh()->load('categories'));
+        return new HabitResource($this->habits->update($habit, $request->validated()));
     }
 
     public function destroy(Habit $habit): JsonResponse
@@ -92,8 +56,6 @@ class HabitController extends Controller
     {
         Gate::authorize('toggle', $habit);
 
-        $this->streaks->toggle($habit, $request->validated('date'));
-
-        return new HabitResource($habit->refresh()->load('categories'));
+        return new HabitResource($this->habits->toggle($habit, $request->validated('date')));
     }
 }

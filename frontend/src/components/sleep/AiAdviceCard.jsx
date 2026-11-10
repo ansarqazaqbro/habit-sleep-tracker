@@ -1,12 +1,8 @@
 import { MessageSquare, Sparkles } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { LiquidButton } from '../liquid/LiquidButton'
-import { LiquidCard } from '../liquid/LiquidCard'
 import { api } from '../../lib/api'
 
-/**
- * Personal AI advice: {"summary": "...", "recommendation": "...", "score": 85}
- */
 export function AiAdviceCard({ refreshKey, onOpenAdvisor }) {
   const [advice, setAdvice] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -29,49 +25,44 @@ export function AiAdviceCard({ refreshKey, onOpenAdvisor }) {
   }, [load, refreshKey])
 
   return (
-    <LiquidCard hoverScale={false} className="p-5">
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-[var(--muted)]">
-            <Sparkles size={14} /> ИИ-совет · Google Gemini
+          <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-[#71717a]">
+            <Sparkles size={13} /> Сводка · AI-консультант Lumen
           </p>
-          {error ? <p className="mt-2 text-sm text-rose-300">{error}</p> : null}
+          {error ? <p className="mt-2 text-xs text-red-400">{error}</p> : null}
           {advice ? (
             <>
-              <p className="mt-2 text-base leading-relaxed">{advice.summary}</p>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+              <p className="mt-2 text-sm leading-relaxed text-[#ededed]">{advice.summary}</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-[#71717a]">
                 {advice.recommendation}
               </p>
             </>
           ) : loading ? (
-            <p className="mt-2 text-sm text-[var(--muted)]">Анализируем вашу неделю…</p>
+            <p className="mt-2 text-xs text-[#71717a]">Анализируем вашу неделю…</p>
           ) : null}
         </div>
         {advice ? (
           <div
-            className="grid h-20 w-20 shrink-0 place-items-center rounded-full text-2xl font-semibold"
-            style={{
-              background: `conic-gradient(var(--accent) ${advice.score * 3.6}deg, rgba(255,255,255,0.1) 0)`,
-            }}
+            className="grid h-14 w-14 shrink-0 place-items-center rounded-lg border border-[#222225] bg-[#121214] font-mono text-base font-semibold text-[#ededed]"
             aria-label={`Общий балл ${advice.score} из 100`}
           >
-            <span className="grid h-16 w-16 place-items-center rounded-full bg-[var(--glass-strong)]">
-              {advice.score}
-            </span>
+            {advice.score}
           </div>
         ) : null}
       </div>
-      <div className="mt-4 flex flex-wrap justify-end gap-2">
+      <div className="mt-3 flex flex-wrap justify-end gap-2 border-t border-[#18181b] pt-3">
         {onOpenAdvisor ? (
-          <LiquidButton onClick={onOpenAdvisor}>
-            <MessageSquare size={15} />
-            Спросить AI-консультанта
+          <LiquidButton variant="primary" onClick={onOpenAdvisor}>
+            <MessageSquare size={14} />
+            Открыть AI-консультант Lumen
           </LiquidButton>
         ) : null}
         <LiquidButton onClick={load} disabled={loading}>
-          {loading ? 'Думаем…' : 'Обновить совет'}
+          {loading ? 'Обновление…' : 'Обновить сводку'}
         </LiquidButton>
       </div>
-    </LiquidCard>
+    </div>
   )
 }

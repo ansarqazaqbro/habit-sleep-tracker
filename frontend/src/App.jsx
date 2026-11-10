@@ -24,14 +24,13 @@ export default function App() {
       api.sleepStats(),
       api.categories(),
     ])
-    setHabits(nextHabits)
-    setMatrix(nextMatrix)
-    setSleepStats(nextStats)
-    setCategories(nextCategories)
+    setHabits(nextHabits?.data ?? nextHabits ?? [])
+    setMatrix(nextMatrix?.data ?? nextMatrix)
+    setSleepStats(nextStats?.data ?? nextStats)
+    setCategories(nextCategories?.data ?? nextCategories ?? [])
   }, [])
 
   useEffect(() => {
-    document.documentElement.dataset.theme ||= 'vision-dark'
     ensureSession()
       .then((profile) => {
         setUser(profile)
@@ -66,6 +65,8 @@ export default function App() {
             categories={categories}
             matrix={matrix}
             onRefresh={refresh}
+            onHabitsChange={setHabits}
+            onOpenAdvisor={() => setAdvisorOpen(true)}
           />
         )}
       </AppShell>
@@ -77,6 +78,8 @@ export default function App() {
         sleepStats={sleepStats}
         habits={habits}
         matrix={matrix}
+        onRefreshData={refresh}
+        onHabitsChange={setHabits}
       />
     </ThemeProvider>
   )

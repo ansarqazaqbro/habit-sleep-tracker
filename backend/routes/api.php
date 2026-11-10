@@ -9,7 +9,9 @@ use App\Http\Controllers\Api\HabitController;
 use App\Http\Controllers\Api\SleepController;
 use Illuminate\Support\Facades\Route;
 
-// Public
+// Public Sanctum endpoints (Coursework PR1-PR12 + SPA paths)
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/demo', [AuthController::class, 'demo']);
@@ -17,6 +19,7 @@ Route::post('/auth/demo', [AuthController::class, 'demo']);
 // Authenticated (Sanctum bearer token)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     Route::get('/categories', [CategoryController::class, 'index']);
@@ -29,8 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('matrix', [ActivityMatrixController::class, 'index']);
 
-    Route::get('ai/advice', [AiAdviceController::class, 'show'])->middleware('throttle:20,1');
-    Route::post('ai/advisor', [AiAdviceController::class, 'advisor'])->middleware('throttle:20,1');
+    Route::get('ai/advice', [AiAdviceController::class, 'show'])->middleware('throttle:30,1');
+    Route::post('ai/advisor', [AiAdviceController::class, 'advisor'])->middleware('throttle:30,1');
+    Route::post('ai/actions/{action}/confirm', [AiAdviceController::class, 'confirmAction']);
+    Route::post('ai/actions/{action}/undo', [AiAdviceController::class, 'undoAction']);
 
     // Admin only
     Route::middleware('admin')->prefix('admin')->group(function () {

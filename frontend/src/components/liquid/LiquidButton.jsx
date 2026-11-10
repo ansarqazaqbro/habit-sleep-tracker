@@ -1,28 +1,32 @@
-import { motion } from 'framer-motion'
 import { playGlassClick } from '../../lib/sound'
 
 export function LiquidButton({
   children,
   className = '',
+  variant = 'secondary',
   type = 'button',
   onClick,
-  sound = true,
+  sound = false,
   ...props
 }) {
+  const variantClass =
+    variant === 'primary'
+      ? 'lumen-btn--primary'
+      : variant === 'ghost'
+        ? 'lumen-btn--ghost'
+        : ''
+
   return (
-    <motion.button
+    <button
       type={type}
-      className={`liquid-glass-pill liquid-btn ${className}`}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      transition={{ type: 'spring', stiffness: 420, damping: 24 }}
+      className={`liquid-btn ${variantClass} ${className}`}
       onClick={(event) => {
         if (sound) playGlassClick()
         onClick?.(event)
       }}
       {...props}
     >
-      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
-    </motion.button>
+      <span className="inline-flex items-center gap-2">{children}</span>
+    </button>
   )
 }

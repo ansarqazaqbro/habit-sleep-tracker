@@ -1,8 +1,6 @@
 import { useMemo, useState } from 'react'
 import { LiquidButton } from '../liquid/LiquidButton'
-import { LiquidCard } from '../liquid/LiquidCard'
 
-const FACES = ['😫', '😕', '😐', '😊', '🤩']
 const GOAL_MINUTES = 480
 
 function duration(bed, wake) {
@@ -23,9 +21,6 @@ function todayLocal() {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
-/**
- * Inline quick sleep log: bed time, wake time, 1–5 quality rating.
- */
 export function SleepQuickForm({ onSave }) {
   const [bed, setBed] = useState('23:30')
   const [wake, setWake] = useState('07:30')
@@ -56,11 +51,11 @@ export function SleepQuickForm({ onSave }) {
   }
 
   return (
-    <LiquidCard hoverScale={false} className="p-5">
-      <h3 className="mb-4 text-lg font-semibold">Быстрая запись сна</h3>
-      <form className="space-y-4" onSubmit={submit}>
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+      <h3 className="mb-3 text-sm font-semibold text-[#ededed]">Быстрая запись сна</h3>
+      <form className="space-y-3.5" onSubmit={submit}>
         <div className="grid grid-cols-2 gap-3">
-          <label className="text-sm">
+          <label className="text-xs text-[#71717a]">
             Засыпание
             <input
               type="time"
@@ -70,7 +65,7 @@ export function SleepQuickForm({ onSave }) {
               className="glass-input mt-1"
             />
           </label>
-          <label className="text-sm">
+          <label className="text-xs text-[#71717a]">
             Пробуждение
             <input
               type="time"
@@ -82,40 +77,45 @@ export function SleepQuickForm({ onSave }) {
           </label>
         </div>
 
-        <div className="liquid-glass-pill px-4 py-2 text-sm">
-          {summary.label} · {summary.percent}% от цели 8 ч
+        <div className="flex items-center justify-between rounded-lg border border-[#222225] bg-[#121214] px-3 py-2 text-xs">
+          <span className="text-[#71717a]">Длительность</span>
+          <span className="font-mono font-medium text-[#ededed]">
+            {summary.label} · {summary.percent}% от 8 ч
+          </span>
         </div>
 
         <div>
-          <p className="mb-2 text-sm">Качество сна: {quality}/5</p>
-          <div className="flex gap-2" role="radiogroup" aria-label="Оценка качества сна">
-            {FACES.map((face, index) => (
+          <p className="mb-1.5 text-xs text-[#71717a]">Качество сна: {quality}/5</p>
+          <div className="grid grid-cols-5 gap-1.5" role="radiogroup" aria-label="Оценка качества сна">
+            {[1, 2, 3, 4, 5].map((score) => (
               <button
-                key={face}
+                key={score}
                 type="button"
                 role="radio"
-                aria-checked={quality === index + 1}
-                aria-label={`Оценка ${index + 1}`}
-                onClick={() => setQuality(index + 1)}
-                className={`liquid-glass-pill h-11 w-11 text-lg transition-transform ${
-                  quality === index + 1 ? 'scale-110 bg-white/25' : ''
+                aria-checked={quality === score}
+                aria-label={`Оценка ${score}`}
+                onClick={() => setQuality(score)}
+                className={`rounded-md border py-2 font-mono text-xs font-medium transition-colors ${
+                  quality === score
+                    ? 'border-[#ededed] bg-[#ededed] text-[#09090b]'
+                    : 'border-[#222225] bg-[#121214] text-[#71717a] hover:border-[#3f3f46] hover:text-[#ededed]'
                 }`}
               >
-                {face}
+                {score}/5
               </button>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-3">
-          <p className={`text-sm ${error ? 'text-rose-300' : 'text-[var(--good)]'}`}>
+        <div className="flex items-center justify-between gap-3 pt-1">
+          <p className={`text-xs ${error ? 'text-red-400' : 'text-[#a1a1aa]'}`}>
             {error || message}
           </p>
-          <LiquidButton type="submit" disabled={saving}>
+          <LiquidButton type="submit" variant="primary" disabled={saving}>
             {saving ? 'Сохраняем…' : 'Сохранить ночь'}
           </LiquidButton>
         </div>
       </form>
-    </LiquidCard>
+    </div>
   )
 }

@@ -1,18 +1,10 @@
-import { LiquidCard } from '../liquid/LiquidCard'
-
 function cellColor(value) {
-  if (value == null) return 'transparent'
-  if (value <= 0) return 'rgba(255,255,255,0.06)'
-  if (value < 0.25) return 'rgba(16, 68, 52, 0.55)'
-  if (value < 0.5) return 'rgba(6, 120, 80, 0.75)'
-  if (value < 0.75) return 'rgba(16, 185, 129, 0.88)'
-  return 'rgba(52, 255, 176, 0.95)'
-}
-
-function glow(value) {
-  if (value >= 1) return '0 0 10px rgba(52, 255, 176, 0.55)'
-  if (value >= 0.75) return '0 0 8px rgba(16, 185, 129, 0.35)'
-  return 'none'
+  if (value == null) return '#09090b'
+  if (value <= 0) return '#121214'
+  if (value < 0.35) return '#27272a'
+  if (value < 0.65) return '#52525b'
+  if (value < 0.9) return '#a1a1aa'
+  return '#ededed'
 }
 
 export function ActivityMatrix({ matrix }) {
@@ -23,25 +15,29 @@ export function ActivityMatrix({ matrix }) {
   }
 
   return (
-    <LiquidCard hoverScale={false} className="p-5">
-      <div className="mb-4 flex items-end justify-between">
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 className="text-lg font-semibold tracking-tight">Матрица активности</h3>
-          <p className="text-sm text-[var(--muted)]">Яркость — доля выполненных привычек за день</p>
+          <h3 className="text-sm font-semibold tracking-tight text-[#ededed]">
+            Матрица дисциплины (16 недель)
+          </h3>
+          <p className="text-xs text-[#71717a]">
+            Доля выполненных привычек за каждый день
+          </p>
         </div>
-        <div className="flex items-center gap-1 text-[10px] text-[var(--muted)]">
-          меньше
+        <div className="flex items-center gap-1.5 text-[11px] text-[#71717a]">
+          <span>меньше</span>
           {[0, 0.25, 0.5, 0.75, 1].map((value) => (
             <span
               key={value}
-              className="heatmap-cell"
-              style={{ background: cellColor(value), boxShadow: glow(value) }}
+              className="heatmap-cell inline-block"
+              style={{ backgroundColor: cellColor(value) }}
             />
           ))}
-          больше
+          <span>больше</span>
         </div>
       </div>
-      <div className="flex gap-1 overflow-x-auto pb-2">
+      <div className="flex gap-1 overflow-x-auto pb-1">
         {columns.map((week, index) => (
           <div key={index} className="flex flex-col gap-1">
             {week.map((day) => (
@@ -49,15 +45,12 @@ export function ActivityMatrix({ matrix }) {
                 key={day.date}
                 title={`${day.date}: ${Math.round((day.value || 0) * 100)}%`}
                 className="heatmap-cell"
-                style={{
-                  background: cellColor(day.value),
-                  boxShadow: glow(day.value || 0),
-                }}
+                style={{ backgroundColor: cellColor(day.value) }}
               />
             ))}
           </div>
         ))}
       </div>
-    </LiquidCard>
+    </div>
   )
 }
