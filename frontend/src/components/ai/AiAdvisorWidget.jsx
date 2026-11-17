@@ -18,10 +18,22 @@ import { api } from '../../lib/api'
 const REQUEST_TIMEOUT_MS = 15000
 
 const QUICK_PROMPTS = [
-  'Я плохо спал последние 3 дня, добавь мне дыхание перед сном и смести чтение',
-  'Составь мне план привычек для утренней бодрости',
-  'Составь мне вечерний план для глубокого сна',
-  'Разбери мою неделю: что улучшить в первую очередь?',
+  {
+    label: 'Улучшить сон',
+    prompt: 'Я плохо спал последние 3 дня, добавь мне дыхание перед сном и смести чтение',
+  },
+  {
+    label: 'Утренний план',
+    prompt: 'Составь мне план привычек для утренней бодрости',
+  },
+  {
+    label: 'Вечерний план',
+    prompt: 'Составь мне вечерний план для глубокого сна',
+  },
+  {
+    label: 'Разбор недели',
+    prompt: 'Разбери мою неделю: что улучшить в первую очередь?',
+  },
 ]
 
 function calcWeeklyHabitPercent(matrix, habits) {
@@ -275,21 +287,54 @@ async function runLocalMockAdvisor(questionText, stats, habits = [], onHabitsCha
     lower.includes('созда') ||
     lower.includes('включ')
   ) {
-    const cleaned = questionText
-      .replace(/^(добавь|создай|включи)\s+(мне\s+)?(привычку\s+)?/i, '')
-      .trim()
-    const habitTitle = cleaned
-      ? cleaned.charAt(0).toUpperCase() + cleaned.slice(1)
-      : 'Вечерняя прогулка 20 мин (21:15)'
+    const beforeSleep =
+      lower.includes('перед сном') || lower.includes('до сна') || lower.includes('на ночь')
+    const timeMatch = questionText.match(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/)
+    const time = timeMatch
+      ? `${String(timeMatch[1]).padStart(2, '0')}:${timeMatch[2]}`
+      : beforeSleep
+        ? '21:40'
+        : '08:00'
+
+    let habitTitle = ''
+    if (lower.includes('вод')) {
+      habitTitle = beforeSleep ? 'Выпить воды перед сном' : 'Стакан воды'
+    } else if (lower.includes('чтен') || lower.includes('книг')) {
+      habitTitle = 'Чтение 20 минут'
+    } else if (lower.includes('прогул') || lower.includes('шаг')) {
+      habitTitle = 'Прогулка 20 минут'
+    } else if (lower.includes('размин') || lower.includes('зарядк')) {
+      habitTitle = 'Разминка 10 минут'
+    } else if (lower.includes('медитац')) {
+      habitTitle = 'Медитация 10 минут'
+    } else {
+      const cleaned = questionText
+        .replace(
+          /\b(добавь|создай|включи|мне|пожалуйста|помоги|нужно|надо|хочу|трекер|привычку|привычка|такой|такую|такое|чтобы|я|перед\s+сном|до\s+сна|на\s+ночь|вечером|утром)\b/gi,
+          ' ',
+        )
+        .replace(/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+
+      habitTitle =
+        /[а-яёa-z]{2,}/i.test(cleaned)
+          ? cleaned.charAt(0).toUpperCase() + cleaned.slice(1, 48)
+          : beforeSleep
+            ? 'Вечерний ритуал'
+            : 'Полезная привычка'
+    }
+
+    const fullTitle = `${habitTitle} (${time})`
 
     createHabitTool({
-      title: habitTitle,
-      category: 'Ритуал',
+      title: fullTitle,
+      category: beforeSleep ? 'Сон' : 'Ритуал',
       target_days_per_week: 7,
-      frequency: 'daily',
+      frequency: `daily (${time})`,
     })
 
-    reply = `Добавил привычку «${habitTitle}» (7 дн./нед.) в ваш трекер.`
+    reply = `Добавил привычку «${habitTitle}» (${time}, 7 дн./нед.) в ваш трекер.`
   }
 
   if ((createdHabits.length > 0 || updatedHabits.length > 0) && onHabitsChange) {
@@ -334,9 +379,17 @@ async function runLocalMockAdvisor(questionText, stats, habits = [], onHabitsCha
   }
 }
 
+const ACTION_TOOL_LABELS = {
+  create_habit: 'Новая привычка',
+  update_habit: 'Обновление',
+  log_sleep: 'Запись сна',
+  apply_routine_plan: 'План режима',
+}
+
 function ActionBadge({ action, onConfirm, onUndo, busy }) {
   const isUndone = action.status === 'undone'
   const isConfirmed = action.status === 'confirmed'
+  const toolLabel = ACTION_TOOL_LABELS[action.tool] || 'Действие'
 
   return (
     <div
@@ -362,16 +415,10 @@ function ActionBadge({ action, onConfirm, onUndo, busy }) {
           </span>
         </div>
 
-        <span className="rounded border border-[#27272a] bg-[#0d0d0e] px-1.5 py-0.5 font-mono text-[10px] text-[#a1a1aa]">
-          {action.tool}
+        <span className="rounded border border-[#27272a] bg-[#0d0d0e] px-2 py-0.5 text-[10px] font-medium text-[#a1a1aa]">
+          {toolLabel}
         </span>
       </div>
-
-      {action.arguments ? (
-        <pre className="mt-1.5 overflow-x-auto rounded border border-[#1c1c1f] bg-[#09090b] px-2 py-1 font-mono text-[10px] text-[#a1a1aa]">
-          {`${action.tool}(${JSON.stringify(action.arguments)})`}
-        </pre>
-      ) : null}
 
       <div className="mt-2 flex items-center justify-between gap-2">
         <span className="text-[11px] text-[#a1a1aa]">
@@ -665,16 +712,11 @@ export function AiAdvisorWidget({
                   <Bot className="inline-block h-4 w-4 shrink-0" />
                 </div>
                 <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="text-base font-semibold tracking-tight text-[#fafafa]">
-                      AI-консультант Lumen
-                    </h2>
-                    <span className="rounded border border-[#27272a] bg-[#141417] px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider text-[#a1a1aa]">
-                      Lumen Assistant · Agentic Tools
-                    </span>
-                  </div>
+                  <h2 className="text-base font-semibold tracking-tight text-[#fafafa]">
+                    AI-консультант Lumen
+                  </h2>
                   <p className="mt-0.5 text-xs text-[#a1a1aa]">
-                    Автономное планирование режима: create_habit, update_habit, log_sleep, apply_routine_plan
+                    Персональный помощник по привычкам и режиму сна
                   </p>
                 </div>
               </div>
@@ -819,7 +861,7 @@ export function AiAdvisorWidget({
               {messages.length > 0 && isLoading ? (
                 <div className="flex items-center gap-2 py-1 text-xs text-[#a1a1aa]">
                   <Loader2 className="inline-block h-3.5 w-3.5 shrink-0 animate-spin" />
-                  <span>AI-консультант Lumen выполняет инструменты…</span>
+                  <span>AI-консультант Lumen обрабатывает запрос…</span>
                 </div>
               ) : null}
 
@@ -834,20 +876,21 @@ export function AiAdvisorWidget({
 
             {/* Quick agentic prompts */}
             <div className="mt-3">
-              <p className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-[#a1a1aa]">
+              <p className="mb-2 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#a1a1aa]">
                 <MessageSquarePlus className="inline-block h-3.5 w-3.5 shrink-0" />
-                <span>Быстрые команды (автоматическое изменение привычек и сна):</span>
+                <span>Быстрые команды</span>
               </p>
-              <div className="flex flex-wrap gap-1.5">
-                {QUICK_PROMPTS.map((promptText) => (
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {QUICK_PROMPTS.map((item) => (
                   <button
-                    key={promptText}
+                    key={item.label}
                     type="button"
                     disabled={isLoading}
-                    onClick={() => handleQuickPrompt(promptText)}
-                    className="tag-chip text-left text-xs"
+                    onClick={() => handleQuickPrompt(item.prompt)}
+                    title={item.prompt}
+                    className="tag-chip justify-center py-2 text-center text-xs font-medium"
                   >
-                    {promptText}
+                    {item.label}
                   </button>
                 ))}
               </div>
@@ -855,13 +898,13 @@ export function AiAdvisorWidget({
 
             {/* Input form — fixed dimensions & overflow-hidden to prevent any layout shift/jitter */}
             <form
-              className="mt-3.5 flex items-center gap-2 overflow-hidden"
+              className="mt-3 flex items-center gap-2 overflow-hidden"
               onSubmit={handleSubmit}
             >
               <input
                 value={question}
                 onChange={(event) => setQuestion(event.target.value)}
-                placeholder="Например: Я плохо спал последние 3 дня, добавь мне дыхание перед сном и смести чтение…"
+                placeholder="Например: добавь стакан воды перед сном или составь план…"
                 maxLength={1000}
                 className="h-10 min-w-0 flex-1 rounded-lg border border-[#27272a] bg-[#121214] px-3 py-0 text-xs font-medium text-[#fafafa] placeholder:text-[#71717a] outline-none focus:border-[#52525b] focus:outline-none"
               />

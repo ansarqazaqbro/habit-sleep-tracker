@@ -1,0 +1,3106 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+public/
+  favicon.svg
+  icons.svg
+src/
+  assets/
+    hero.png
+    react.svg
+    vite.svg
+  components/
+    ai/
+      AiAdvisorWidget.jsx
+    habits/
+      ActivityMatrix.jsx
+      HabitCard.jsx
+      HabitsDashboard.jsx
+      NewHabitModal.jsx
+    layout/
+      AppShell.jsx
+    liquid/
+      LiquidButton.jsx
+      LiquidCard.jsx
+      LiquidLensFilters.jsx
+    sleep/
+      AiAdviceCard.jsx
+      SleepChart.jsx
+      SleepDashboard.jsx
+      SleepQualityWidget.jsx
+      SleepQuickForm.jsx
+    theme/
+      ThemeToggle.jsx
+  context/
+    ThemeContext.jsx
+  lib/
+    api.js
+    sound.js
+  styles/
+    liquid.css
+  App.css
+  App.jsx
+  index.css
+  main.jsx
+.gitignore
+.oxlintrc.json
+index.html
+package.json
+README.md
+vite.config.js
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="public/favicon.svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7ee0ff"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="#0b1020"/>
+  <path d="M38 14c-9 4-16 14-16 24a14 14 0 0028 0c0-2-.2-4-.7-6C44 26 40 20 38 14z" fill="url(#g)"/>
+</svg>
+</file>
+
+<file path="public/icons.svg">
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="bluesky-icon" viewBox="0 0 16 17">
+    <g clip-path="url(#bluesky-clip)"><path fill="#08060d" d="M7.75 7.735c-.693-1.348-2.58-3.86-4.334-5.097-1.68-1.187-2.32-.981-2.74-.79C.188 2.065.1 2.812.1 3.251s.241 3.602.398 4.13c.52 1.744 2.367 2.333 4.07 2.145-2.495.37-4.71 1.278-1.805 4.512 3.196 3.309 4.38-.71 4.987-2.746.608 2.036 1.307 5.91 4.93 2.746 2.72-2.746.747-4.143-1.747-4.512 1.702.189 3.55-.4 4.07-2.145.156-.528.397-3.691.397-4.13s-.088-1.186-.575-1.406c-.42-.19-1.06-.395-2.741.79-1.755 1.24-3.64 3.752-4.334 5.099"/></g>
+    <defs><clipPath id="bluesky-clip"><path fill="#fff" d="M.1.85h15.3v15.3H.1z"/></clipPath></defs>
+  </symbol>
+  <symbol id="discord-icon" viewBox="0 0 20 19">
+    <path fill="#08060d" d="M16.224 3.768a14.5 14.5 0 0 0-3.67-1.153c-.158.286-.343.67-.47.976a13.5 13.5 0 0 0-4.067 0c-.128-.306-.317-.69-.476-.976A14.4 14.4 0 0 0 3.868 3.77C1.546 7.28.916 10.703 1.231 14.077a14.7 14.7 0 0 0 4.5 2.306q.545-.748.965-1.587a9.5 9.5 0 0 1-1.518-.74q.191-.14.372-.293c2.927 1.369 6.107 1.369 8.999 0q.183.152.372.294-.723.437-1.52.74.418.838.963 1.588a14.6 14.6 0 0 0 4.504-2.308c.37-3.911-.63-7.302-2.644-10.309m-9.13 8.234c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.894 0 1.614.82 1.599 1.82.001 1-.705 1.82-1.6 1.82m5.91 0c-.878 0-1.599-.82-1.599-1.82 0-.998.705-1.82 1.6-1.82.893 0 1.614.82 1.599 1.82 0 1-.706 1.82-1.6 1.82"/>
+  </symbol>
+  <symbol id="documentation-icon" viewBox="0 0 21 20">
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="m15.5 13.333 1.533 1.322c.645.555.967.833.967 1.178s-.322.623-.967 1.179L15.5 18.333m-3.333-5-1.534 1.322c-.644.555-.966.833-.966 1.178s.322.623.966 1.179l1.534 1.321"/>
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M17.167 10.836v-4.32c0-1.41 0-2.117-.224-2.68-.359-.906-1.118-1.621-2.08-1.96-.599-.21-1.349-.21-2.848-.21-2.623 0-3.935 0-4.983.369-1.684.591-3.013 1.842-3.641 3.428C3 6.449 3 7.684 3 10.154v2.122c0 2.558 0 3.838.706 4.726q.306.383.713.671c.76.536 1.79.64 3.581.66"/>
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M3 10a2.78 2.78 0 0 1 2.778-2.778c.555 0 1.209.097 1.748-.047.48-.129.854-.503.982-.982.145-.54.048-1.194.048-1.749a2.78 2.78 0 0 1 2.777-2.777"/>
+  </symbol>
+  <symbol id="github-icon" viewBox="0 0 19 19">
+    <path fill="#08060d" fill-rule="evenodd" d="M9.356 1.85C5.05 1.85 1.57 5.356 1.57 9.694a7.84 7.84 0 0 0 5.324 7.44c.387.079.528-.168.528-.376 0-.182-.013-.805-.013-1.454-2.165.467-2.616-.935-2.616-.935-.349-.91-.864-1.143-.864-1.143-.71-.48.051-.48.051-.48.787.051 1.2.805 1.2.805.695 1.194 1.817.857 2.268.649.064-.507.27-.857.49-1.052-1.728-.182-3.545-.857-3.545-3.87 0-.857.31-1.558.8-2.104-.078-.195-.349-1 .077-2.078 0 0 .657-.208 2.14.805a7.5 7.5 0 0 1 1.946-.26c.657 0 1.328.092 1.946.26 1.483-1.013 2.14-.805 2.14-.805.426 1.078.155 1.883.078 2.078.502.546.799 1.247.799 2.104 0 3.013-1.818 3.675-3.558 3.87.284.247.528.714.528 1.454 0 1.052-.012 1.896-.012 2.156 0 .208.142.455.528.377a7.84 7.84 0 0 0 5.324-7.441c.013-4.338-3.48-7.844-7.773-7.844" clip-rule="evenodd"/>
+  </symbol>
+  <symbol id="social-icon" viewBox="0 0 20 20">
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M12.5 6.667a4.167 4.167 0 1 0-8.334 0 4.167 4.167 0 0 0 8.334 0"/>
+    <path fill="none" stroke="#aa3bff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.35" d="M2.5 16.667a5.833 5.833 0 0 1 8.75-5.053m3.837.474.513 1.035c.07.144.257.282.414.309l.93.155c.596.1.736.536.307.965l-.723.73a.64.64 0 0 0-.152.531l.207.903c.164.715-.213.991-.84.618l-.872-.52a.63.63 0 0 0-.577 0l-.872.52c-.624.373-1.003.094-.84-.618l.207-.903a.64.64 0 0 0-.152-.532l-.723-.729c-.426-.43-.289-.864.306-.964l.93-.156a.64.64 0 0 0 .412-.31l.513-1.034c.28-.562.735-.562 1.012 0"/>
+  </symbol>
+  <symbol id="x-icon" viewBox="0 0 19 19">
+    <path fill="#08060d" fill-rule="evenodd" d="M1.893 1.98c.052.072 1.245 1.769 2.653 3.77l2.892 4.114c.183.261.333.48.333.486s-.068.089-.152.183l-.522.593-.765.867-3.597 4.087c-.375.426-.734.834-.798.905a1 1 0 0 0-.118.148c0 .01.236.017.664.017h.663l.729-.83c.4-.457.796-.906.879-.999a692 692 0 0 0 1.794-2.038c.034-.037.301-.34.594-.675l.551-.624.345-.392a7 7 0 0 1 .34-.374c.006 0 .93 1.306 2.052 2.903l2.084 2.965.045.063h2.275c1.87 0 2.273-.003 2.266-.021-.008-.02-1.098-1.572-3.894-5.547-2.013-2.862-2.28-3.246-2.273-3.266.008-.019.282-.332 2.085-2.38l2-2.274 1.567-1.782c.022-.028-.016-.03-.65-.03h-.674l-.3.342a871 871 0 0 1-1.782 2.025c-.067.075-.405.458-.75.852a100 100 0 0 1-.803.91c-.148.172-.299.344-.99 1.127-.304.343-.32.358-.345.327-.015-.019-.904-1.282-1.976-2.808L6.365 1.85H1.8zm1.782.91 8.078 11.294c.772 1.08 1.413 1.973 1.425 1.984.016.017.241.02 1.05.017l1.03-.004-2.694-3.766L7.796 5.75 5.722 2.852l-1.039-.004-1.039-.004z" clip-rule="evenodd"/>
+  </symbol>
+</svg>
+</file>
+
+<file path="src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="src/assets/vite.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="77" height="47" fill="none" aria-labelledby="vite-logo-title" viewBox="0 0 77 47"><title id="vite-logo-title">Vite</title><style>.parenthesis{fill:#000}@media (prefers-color-scheme:dark){.parenthesis{fill:#fff}}</style><path fill="#9135ff" d="M40.151 45.71c-.663.844-2.02.374-2.02-.699V34.708a2.26 2.26 0 0 0-2.262-2.262H24.493c-.92 0-1.457-1.04-.92-1.788l7.479-10.471c1.07-1.498 0-3.578-1.842-3.578H15.443c-.92 0-1.456-1.04-.92-1.788l9.696-13.576c.213-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.472c-1.07 1.497 0 3.578 1.842 3.578h11.376c.944 0 1.474 1.087.89 1.83L40.153 45.712z"/><mask id="a" width="48" height="47" x="14" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path fill="#000" d="M40.047 45.71c-.663.843-2.02.374-2.02-.699V34.708a2.26 2.26 0 0 0-2.262-2.262H24.389c-.92 0-1.457-1.04-.92-1.788l7.479-10.472c1.07-1.497 0-3.578-1.842-3.578H15.34c-.92 0-1.456-1.04-.92-1.788l9.696-13.575c.213-.297.556-.474.92-.474H53.93c.92 0 1.456 1.04.92 1.788L47.37 13.03c-1.07 1.498 0 3.578 1.842 3.578h11.376c.944 0 1.474 1.088.89 1.831L40.049 45.712z"/></mask><g mask="url(#a)"><g filter="url(#b)"><ellipse cx="5.508" cy="14.704" fill="#eee6ff" rx="5.508" ry="14.704" transform="rotate(269.814 20.96 11.29)scale(-1 1)"/></g><g filter="url(#c)"><ellipse cx="10.399" cy="29.851" fill="#eee6ff" rx="10.399" ry="29.851" transform="rotate(89.814 -16.902 -8.275)scale(1 -1)"/></g><g filter="url(#d)"><ellipse cx="5.508" cy="30.487" fill="#8900ff" rx="5.508" ry="30.487" transform="rotate(89.814 -19.197 -7.127)scale(1 -1)"/></g><g filter="url(#e)"><ellipse cx="5.508" cy="30.599" fill="#8900ff" rx="5.508" ry="30.599" transform="rotate(89.814 -25.928 4.177)scale(1 -1)"/></g><g filter="url(#f)"><ellipse cx="5.508" cy="30.599" fill="#8900ff" rx="5.508" ry="30.599" transform="rotate(89.814 -25.738 5.52)scale(1 -1)"/></g><g filter="url(#g)"><ellipse cx="14.072" cy="22.078" fill="#eee6ff" rx="14.072" ry="22.078" transform="rotate(93.35 31.245 55.578)scale(-1 1)"/></g><g filter="url(#h)"><ellipse cx="3.47" cy="21.501" fill="#8900ff" rx="3.47" ry="21.501" transform="rotate(89.009 35.419 55.202)scale(-1 1)"/></g><g filter="url(#i)"><ellipse cx="3.47" cy="21.501" fill="#8900ff" rx="3.47" ry="21.501" transform="rotate(89.009 35.419 55.202)scale(-1 1)"/></g><g filter="url(#j)"><ellipse cx="14.592" cy="9.743" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(39.51 14.592 9.743)"/></g><g filter="url(#k)"><ellipse cx="61.728" cy="-5.321" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 61.728 -5.32)"/></g><g filter="url(#l)"><ellipse cx="55.618" cy="7.104" fill="#00c2ff" rx="5.971" ry="9.665" transform="rotate(37.892 55.618 7.104)"/></g><g filter="url(#m)"><ellipse cx="12.326" cy="39.103" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 12.326 39.103)"/></g><g filter="url(#n)"><ellipse cx="12.326" cy="39.103" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 12.326 39.103)"/></g><g filter="url(#o)"><ellipse cx="49.857" cy="30.678" fill="#8900ff" rx="4.407" ry="29.108" transform="rotate(37.892 49.857 30.678)"/></g><g filter="url(#p)"><ellipse cx="52.623" cy="33.171" fill="#00c2ff" rx="5.971" ry="15.297" transform="rotate(37.892 52.623 33.17)"/></g></g><path d="M6.919 0c-9.198 13.166-9.252 33.575 0 46.789h6.215c-9.25-13.214-9.196-33.623 0-46.789zm62.424 0h-6.215c9.198 13.166 9.252 33.575 0 46.789h6.215c9.25-13.214 9.196-33.623 0-46.789" class="parenthesis"/><defs><filter id="b" width="60.045" height="41.654" x="-5.564" y="16.92" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="7.659"/></filter><filter id="c" width="90.34" height="51.437" x="-40.407" y="-6.762" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="7.659"/></filter><filter id="d" width="79.355" height="29.4" x="-35.435" y="2.801" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="e" width="79.579" height="29.4" x="-30.84" y="20.8" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="f" width="79.579" height="29.4" x="-29.307" y="21.949" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="g" width="74.749" height="58.852" x="29.961" y="-17.13" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="7.659"/></filter><filter id="h" width="61.377" height="25.362" x="37.754" y="3.055" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="i" width="61.377" height="25.362" x="37.754" y="3.055" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="j" width="56.045" height="63.649" x="-13.43" y="-22.082" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="k" width="54.814" height="64.646" x="34.321" y="-37.644" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="l" width="33.541" height="35.313" x="38.847" y="-10.552" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="m" width="54.814" height="64.646" x="-15.081" y="6.78" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="n" width="54.814" height="64.646" x="-15.081" y="6.78" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="o" width="54.814" height="64.646" x="22.45" y="-1.645" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter><filter id="p" width="39.409" height="43.623" x="32.919" y="11.36" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feGaussianBlur result="effect1_foregroundBlur_2002_17286" stdDeviation="4.596"/></filter></defs></svg>
+</file>
+
+<file path="src/components/ai/AiAdvisorWidget.jsx">
+import {
+  Bot,
+  Check,
+  CheckCircle2,
+  Lightbulb,
+  Loader2,
+  MessageSquarePlus,
+  RefreshCw,
+  RotateCcw,
+  Send,
+  Wrench,
+  X,
+} from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { LiquidButton } from '../liquid/LiquidButton'
+import { api } from '../../lib/api'
+
+const REQUEST_TIMEOUT_MS = 15000
+
+const QUICK_PROMPTS = [
+  'Я плохо спал последние 3 дня, добавь мне дыхание перед сном и смести чтение',
+  'Составь мне план привычек для утренней бодрости',
+  'Составь мне вечерний план для глубокого сна',
+  'Разбери мою неделю: что улучшить в первую очередь?',
+]
+
+function calcWeeklyHabitPercent(matrix, habits) {
+  const days = matrix?.days
+  if (Array.isArray(days) && days.length > 0) {
+    const last7 = days.slice(-7)
+    const completed = last7.reduce((sum, d) => sum + (Number(d.completed) || 0), 0)
+    const total = last7.reduce((sum, d) => sum + (Number(d.total) || 0), 0)
+    if (total > 0) {
+      return Math.min(100, Math.round((completed / total) * 100))
+    }
+  }
+  if (Array.isArray(habits) && habits.length > 0) {
+    const doneToday = habits.filter((h) => h.completed_today).length
+    return Math.round((doneToday / habits.length) * 100)
+  }
+  return 68
+}
+
+function buildWeekDays(target = 7) {
+  const today = new Date()
+  const dayOfWeek = (today.getDay() + 6) % 7
+  const monday = new Date(today)
+  monday.setDate(today.getDate() - dayOfWeek)
+
+  const days = Array.from({ length: 7 }, (_, idx) => {
+    const d = new Date(monday)
+    d.setDate(monday.getDate() + idx)
+    return {
+      date: d.toISOString().slice(0, 10),
+      done: false,
+      future: idx > dayOfWeek,
+    }
+  })
+
+  return {
+    completed: 0,
+    target,
+    days,
+  }
+}
+
+function makeLocalHabitObject({ id, title, target_days_per_week = 7, category = 'Ритуал' }) {
+  const target = Math.max(1, Math.min(7, Number(target_days_per_week) || 7))
+  return {
+    id: id || Date.now() + Math.floor(Math.random() * 1000),
+    title,
+    target_frequency: target,
+    target_days_per_week: target,
+    streak_count: 0,
+    streak: 0,
+    best_streak: 0,
+    accent: '#e4e4e7',
+    color: '#e4e4e7',
+    is_active: true,
+    completed_today: false,
+    completed_this_week: 0,
+    week: buildWeekDays(target),
+    categories: [{ id: 99, title: category, name: category }],
+  }
+}
+
+/**
+ * Local autonomous fallback planner (1s simulated latency) used if the backend
+ * endpoint `/api/ai/advisor` is offline, times out, or returns an error.
+ */
+async function runLocalMockAdvisor(questionText, stats, habits = [], onHabitsChange) {
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
+  const lower = (questionText || '').toLowerCase()
+  const actions = []
+  const createdHabits = []
+  const updatedHabits = []
+  let reply =
+    'Проанализировал ваш график сна и привычек. Стабилизируйте время отбоя (±30 минут) и оставьте вечером одну короткую практику замедления.'
+
+  const createHabitTool = ({ title, category = 'Спокойствие', target_days_per_week = 7, frequency = 'daily' }) => {
+    const newHabit = makeLocalHabitObject({
+      title,
+      target_days_per_week,
+      category,
+    })
+    createdHabits.push(newHabit)
+
+    const actionId = `local-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+    actions.push({
+      id: actionId,
+      isLocal: true,
+      tool: 'create_habit',
+      arguments: {
+        title,
+        category,
+        target_days_per_week,
+        frequency,
+      },
+      summary: `Создана привычка: ${title} (${target_days_per_week} дн.)`,
+      status: 'applied',
+      can_confirm: true,
+      can_undo: true,
+      snapshot: { createdHabitId: newHabit.id },
+    })
+  }
+
+  const updateHabitTool = ({ targetHabit, newTitle, scheduleTime = '21:00' }) => {
+    const previousHabit = targetHabit || habits[0] || {
+      id: 1,
+      title: 'Чтение 20 минут',
+      target_days_per_week: 5,
+      target_frequency: 5,
+    }
+    const cleanTitle = previousHabit.title.replace(/\s*\(\d{2}:\d{2}\)\s*$/, '')
+    const updatedTitle = newTitle || `${cleanTitle} (${scheduleTime})`
+    const days = previousHabit.target_days_per_week || previousHabit.target_frequency || 5
+
+    updatedHabits.push({
+      id: previousHabit.id,
+      before: { ...previousHabit },
+      after: {
+        ...previousHabit,
+        title: updatedTitle,
+        target_days_per_week: days,
+        target_frequency: days,
+      },
+    })
+
+    const actionId = `local-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+    actions.push({
+      id: actionId,
+      isLocal: true,
+      tool: 'update_habit',
+      arguments: {
+        id: previousHabit.id,
+        changes: {
+          title: updatedTitle,
+          target_days_per_week: days,
+          schedule_time: scheduleTime,
+        },
+      },
+      summary: `Обновлена привычка: «${previousHabit.title}» → «${updatedTitle}»`,
+      status: 'applied',
+      can_confirm: true,
+      can_undo: true,
+      snapshot: { beforeHabit: { ...previousHabit } },
+    })
+  }
+
+  if (lower.includes('дыхан') || lower.includes('плохо спал') || lower.includes('смести')) {
+    if (lower.includes('смести') || lower.includes('чтен')) {
+      const readingHabit = habits.find((h) => h.title?.toLowerCase().includes('чтен')) || habits[0]
+      updateHabitTool({
+        targetHabit: readingHabit,
+        scheduleTime: '21:00',
+      })
+    }
+
+    createHabitTool({
+      title: 'Дыхание 4-7-8 (21:40)',
+      category: 'Спокойствие',
+      target_days_per_week: 7,
+      frequency: 'daily (21:40)',
+    })
+
+    reply =
+      'Проанализировал ваш режим за последние 3 дня: сместил чтение на 21:00 и добавил вечернюю практику «Дыхание 4-7-8» на 21:40 (7 дн./нед.) для снижения кортизола перед сном.'
+  } else if (lower.includes('утренн') || (lower.includes('план') && !lower.includes('вечер'))) {
+    const planItems = [
+      {
+        title: 'Стакан воды 400 мл (07:15)',
+        category: 'Тело',
+        target_days_per_week: 7,
+        frequency: 'daily (07:15)',
+      },
+      {
+        title: 'Дневной свет и разминка 10 мин (07:30)',
+        category: 'Движение',
+        target_days_per_week: 7,
+        frequency: 'daily (07:30)',
+      },
+      {
+        title: 'Контрастный душ (07:45)',
+        category: 'Тело',
+        target_days_per_week: 5,
+        frequency: 'weekdays (07:45)',
+      },
+    ]
+
+    const newObjects = planItems.map((item) => makeLocalHabitObject(item))
+    createdHabits.push(...newObjects)
+
+    actions.push({
+      id: `local-${Date.now()}-plan`,
+      isLocal: true,
+      tool: 'apply_routine_plan',
+      arguments: {
+        name: 'Утренняя бодрость',
+        habits: planItems,
+      },
+      summary: `Применён план «Утренняя бодрость»: ${planItems.map((i) => i.title).join(' · ')}`,
+      status: 'applied',
+      can_confirm: true,
+      can_undo: true,
+      snapshot: { createdHabitIds: newObjects.map((item) => item.id) },
+    })
+
+    reply =
+      'Сформировал и применил план «Утренняя бодрость» (3 привычки) с акцентом на гидратацию, утренний свет и включение тонуса.'
+  } else if (lower.includes('вечерн') || lower.includes('глубокого сна')) {
+    const planItems = [
+      {
+        title: 'Без экранов за час до сна (22:00)',
+        category: 'Сон',
+        target_days_per_week: 7,
+        frequency: 'daily (22:00)',
+      },
+      {
+        title: 'Чтение бумажной книги 20 мин (21:20)',
+        category: 'Разум',
+        target_days_per_week: 6,
+        frequency: '6x_week (21:20)',
+      },
+      {
+        title: 'Дыхание 4-7-8 (21:45)',
+        category: 'Спокойствие',
+        target_days_per_week: 7,
+        frequency: 'daily (21:45)',
+      },
+    ]
+
+    const newObjects = planItems.map((item) => makeLocalHabitObject(item))
+    createdHabits.push(...newObjects)
+
+    actions.push({
+      id: `local-${Date.now()}-evening`,
+      isLocal: true,
+      tool: 'apply_routine_plan',
+      arguments: {
+        name: 'Вечернее замедление',
+        habits: planItems,
+      },
+      summary: `Применён план «Вечернее замедление»: ${planItems.map((i) => i.title).join(' · ')}`,
+      status: 'applied',
+      can_confirm: true,
+      can_undo: true,
+      snapshot: { createdHabitIds: newObjects.map((item) => item.id) },
+    })
+
+    reply =
+      'Сформировал и применил вечерний протокол «Вечернее замедление» (3 привычки) для плавного снижения нагрузки перед сном.'
+  } else if (
+    lower.includes('добав') ||
+    lower.includes('созда') ||
+    lower.includes('включ')
+  ) {
+    const cleaned = questionText
+      .replace(/^(добавь|создай|включи)\s+(мне\s+)?(привычку\s+)?/i, '')
+      .trim()
+    const habitTitle = cleaned
+      ? cleaned.charAt(0).toUpperCase() + cleaned.slice(1)
+      : 'Вечерняя прогулка 20 мин (21:15)'
+
+    createHabitTool({
+      title: habitTitle,
+      category: 'Ритуал',
+      target_days_per_week: 7,
+      frequency: 'daily',
+    })
+
+    reply = `Добавил привычку «${habitTitle}» (7 дн./нед.) в ваш трекер.`
+  }
+
+  if ((createdHabits.length > 0 || updatedHabits.length > 0) && onHabitsChange) {
+    onHabitsChange((prev) => {
+      let next = [...prev]
+      for (const upd of updatedHabits) {
+        const idx = next.findIndex((h) => h.id === upd.id)
+        if (idx !== -1) {
+          next[idx] = upd.after
+        }
+      }
+      for (const created of createdHabits) {
+        if (!next.some((h) => h.title.toLowerCase() === created.title.toLowerCase())) {
+          next.push(created)
+        }
+      }
+      return next
+    })
+  }
+
+  return {
+    score: 82,
+    summary: 'Автономный анализ режима сна и дисциплины выполнен.',
+    insights: [
+      `Средняя длительность сна: ${stats.avg_sleep_hours ?? 7.4} ч, качество: ${stats.avg_sleep_quality ?? 4.1}/5.`,
+      `Выполнение недельного плана привычек: ${stats.habit_completion_percent ?? 68}%.`,
+      'Вечерний буфер без экранов напрямую повышает глубину сна и утренний фокус.',
+    ],
+    recommendations: [
+      'Держите фиксированный коридор отбоя 23:00–23:30 и подъёма 07:15–07:30.',
+      'Выполняйте практику дыхания 4-7-8 за 30–40 минут до сна.',
+      'Переносите когнитивно плотные привычки на первую половину дня или до 21:00.',
+    ],
+    reply,
+    actions,
+    stats: {
+      avg_sleep_hours: stats.avg_sleep_hours ?? 7.4,
+      avg_sleep_quality: stats.avg_sleep_quality ?? 4.1,
+      habit_completion_percent: stats.habit_completion_percent ?? 68,
+      sleep_regularity_percent: 84,
+    },
+  }
+}
+
+function ActionBadge({ action, onConfirm, onUndo, busy }) {
+  const isUndone = action.status === 'undone'
+  const isConfirmed = action.status === 'confirmed'
+
+  return (
+    <div
+      className={`mt-2 rounded-lg border px-3 py-2.5 text-xs ${
+        isUndone
+          ? 'border-[#222225] bg-[#0a0a0b] text-[#71717a]'
+          : 'border-[#2e2e33] bg-[#121214] text-[#fafafa]'
+      }`}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <span
+            className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border font-mono text-[11px] ${
+              isUndone
+                ? 'border-[#222225] text-[#71717a]'
+                : 'border-zinc-400 bg-zinc-100 font-bold text-zinc-950'
+            }`}
+          >
+            {isUndone ? '↺' : '✓'}
+          </span>
+          <span className={`font-semibold ${isUndone ? 'line-through' : ''}`}>
+            {action.summary}
+          </span>
+        </div>
+
+        <span className="rounded border border-[#27272a] bg-[#0d0d0e] px-1.5 py-0.5 font-mono text-[10px] text-[#a1a1aa]">
+          {action.tool}
+        </span>
+      </div>
+
+      {action.arguments ? (
+        <pre className="mt-1.5 overflow-x-auto rounded border border-[#1c1c1f] bg-[#09090b] px-2 py-1 font-mono text-[10px] text-[#a1a1aa]">
+          {`${action.tool}(${JSON.stringify(action.arguments)})`}
+        </pre>
+      ) : null}
+
+      <div className="mt-2 flex items-center justify-between gap-2">
+        <span className="text-[11px] text-[#a1a1aa]">
+          {isUndone
+            ? 'Отменено · состояние восстановлено'
+            : isConfirmed
+              ? 'Подтверждено'
+              : 'Изменение применено к трекеру'}
+        </span>
+
+        {!isUndone ? (
+          <div className="flex items-center gap-1.5">
+            {action.can_confirm && !isConfirmed ? (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => onConfirm(action)}
+                className="inline-flex h-7 items-center gap-1 rounded-md border border-[#2e2e33] bg-[#18181b] px-2.5 text-[11px] font-semibold text-[#fafafa] transition-opacity hover:bg-[#27272a] disabled:opacity-40"
+              >
+                <Check className="inline-block h-3 w-3 shrink-0" />
+                <span>Подтвердить</span>
+              </button>
+            ) : null}
+            {action.can_undo ? (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => onUndo(action)}
+                className="inline-flex h-7 items-center gap-1 rounded-md border border-[#27272a] bg-[#0d0d0e] px-2.5 text-[11px] font-medium text-[#a1a1aa] transition-opacity hover:text-[#fafafa] disabled:opacity-40"
+              >
+                <RotateCcw className="inline-block h-3 w-3 shrink-0" />
+                <span>Отменить</span>
+              </button>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+export function AiAdvisorWidget({
+  open,
+  onOpen,
+  onClose,
+  sleepStats,
+  habits,
+  matrix,
+  onRefreshData,
+  onHabitsChange,
+}) {
+  const [question, setQuestion] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [actionBusy, setActionBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [report, setReport] = useState(null)
+  const [messages, setMessages] = useState([])
+  const chatEndRef = useRef(null)
+
+  const currentStats = useMemo(() => {
+    const avgSleepHours =
+      typeof sleepStats?.average_hours === 'number' ? sleepStats.average_hours : undefined
+    const avgSleepQuality =
+      typeof sleepStats?.average_quality === 'number' && sleepStats.average_quality > 0
+        ? sleepStats.average_quality
+        : undefined
+    const habitCompletionPercent = calcWeeklyHabitPercent(matrix, habits)
+
+    return {
+      avg_sleep_hours: avgSleepHours,
+      avg_sleep_quality: avgSleepQuality,
+      habit_completion_percent: habitCompletionPercent,
+    }
+  }, [sleepStats, matrix, habits])
+
+  const askAdvisor = useCallback(
+    async (userQuestion = '', currentHistory = []) => {
+      setIsLoading(true)
+      setError('')
+
+      const trimmed = userQuestion.trim()
+      const nextHistory = trimmed
+        ? [...currentHistory, { role: 'user', text: trimmed }]
+        : currentHistory
+
+      if (trimmed) {
+        setMessages(nextHistory)
+      }
+
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
+      try {
+        const res = await api.aiAdvisor(
+          {
+            ...currentStats,
+            ...(trimmed ? { question: trimmed } : {}),
+            history: currentHistory.slice(-8),
+          },
+          {
+            timeoutMs: REQUEST_TIMEOUT_MS,
+            signal: controller.signal,
+          },
+        )
+
+        setReport(res)
+        setMessages([
+          ...nextHistory,
+          {
+            role: 'assistant',
+            text: res.reply,
+            insights: res.insights || [],
+            recommendations: res.recommendations || [],
+            actions: res.actions || [],
+            score: res.score,
+          },
+        ])
+
+        if (Array.isArray(res.actions) && res.actions.length > 0) {
+          await onRefreshData?.()
+        }
+      } catch {
+        // Safe local mock fallback (1s delay) so the UI never hangs or breaks
+        setError(
+          'Не удалось связаться с сервером. Проверьте подключение — выполнен автономный локальный сценарий.',
+        )
+
+        const mockRes = await runLocalMockAdvisor(
+          trimmed,
+          currentStats,
+          habits,
+          onHabitsChange,
+        )
+
+        setReport(mockRes)
+        setMessages([
+          ...nextHistory,
+          {
+            role: 'assistant',
+            text: mockRes.reply,
+            insights: mockRes.insights,
+            recommendations: mockRes.recommendations,
+            actions: mockRes.actions,
+            score: mockRes.score,
+          },
+        ])
+      } finally {
+        clearTimeout(timeoutId)
+        setIsLoading(false)
+      }
+    },
+    [currentStats, habits, onHabitsChange, onRefreshData],
+  )
+
+  useEffect(() => {
+    if (open && !report && !isLoading && messages.length === 0) {
+      askAdvisor('', [])
+    }
+  }, [open, report, isLoading, messages.length, askAdvisor])
+
+  useEffect(() => {
+    if (open) {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
+  }, [messages, isLoading, open])
+
+  function updateActionInMessages(updatedAction) {
+    setMessages((prev) =>
+      prev.map((msg) => ({
+        ...msg,
+        actions: (msg.actions || []).map((a) => (a.id === updatedAction.id ? updatedAction : a)),
+      })),
+    )
+  }
+
+  async function handleConfirm(action) {
+    setActionBusy(true)
+    try {
+      if (action.isLocal || String(action.id).startsWith('local-')) {
+        updateActionInMessages({ ...action, status: 'confirmed', can_confirm: false })
+        return
+      }
+      const res = await api.confirmAiAction(action.id)
+      updateActionInMessages(res?.data || res)
+      await onRefreshData?.()
+    } catch {
+      updateActionInMessages({ ...action, status: 'confirmed', can_confirm: false })
+    } finally {
+      setActionBusy(false)
+    }
+  }
+
+  async function handleUndo(action) {
+    setActionBusy(true)
+    try {
+      if (action.isLocal || String(action.id).startsWith('local-')) {
+        if (onHabitsChange && action.snapshot) {
+          onHabitsChange((prev) => {
+            let next = [...prev]
+            if (action.snapshot.createdHabitId) {
+              next = next.filter((h) => h.id !== action.snapshot.createdHabitId)
+            }
+            if (Array.isArray(action.snapshot.createdHabitIds)) {
+              next = next.filter((h) => !action.snapshot.createdHabitIds.includes(h.id))
+            }
+            if (action.snapshot.beforeHabit) {
+              next = next.map((h) =>
+                h.id === action.snapshot.beforeHabit.id ? action.snapshot.beforeHabit : h,
+              )
+            }
+            return next
+          })
+        }
+        updateActionInMessages({
+          ...action,
+          status: 'undone',
+          can_confirm: false,
+          can_undo: false,
+        })
+        return
+      }
+      const res = await api.undoAiAction(action.id)
+      updateActionInMessages(res?.data || res)
+      await onRefreshData?.()
+    } catch {
+      updateActionInMessages({
+        ...action,
+        status: 'undone',
+        can_confirm: false,
+        can_undo: false,
+      })
+    } finally {
+      setActionBusy(false)
+    }
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    if (!question.trim() || isLoading) return
+    const q = question
+    setQuestion('')
+    askAdvisor(
+      q,
+      messages.map(({ role, text }) => ({ role, text })),
+    )
+  }
+
+  function handleQuickPrompt(promptText) {
+    if (isLoading) return
+    askAdvisor(
+      promptText,
+      messages.map(({ role, text }) => ({ role, text })),
+    )
+  }
+
+  const displayStats = report?.stats || {
+    avg_sleep_hours: currentStats.avg_sleep_hours ?? 0,
+    avg_sleep_quality: currentStats.avg_sleep_quality ?? 0,
+    habit_completion_percent: currentStats.habit_completion_percent ?? 0,
+    sleep_regularity_percent: sleepStats?.regularity ?? 0,
+  }
+
+  return (
+    <>
+      <div className="fixed right-5 bottom-5 z-40">
+        <LiquidButton
+          variant="primary"
+          onClick={onOpen}
+          className="h-10 px-4 text-xs font-semibold shadow-lg"
+        >
+          <Bot className="inline-block h-4 w-4 shrink-0" />
+          <span>AI-консультант Lumen</span>
+          {report?.score != null ? (
+            <span className="ml-1 rounded bg-[#09090b] px-1.5 py-0.5 font-mono text-[11px] text-[#fafafa]">
+              {report.score}
+            </span>
+          ) : null}
+        </LiquidButton>
+      </div>
+
+      {open ? (
+        <div className="glass-modal-backdrop" onClick={onClose}>
+          <div
+            className="max-h-[90svh] w-full max-w-2xl overflow-y-auto rounded-xl border border-[#27272a] bg-[#0d0d0e] p-5 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-start justify-between gap-4 border-b border-[#222225] pb-3.5">
+              <div className="flex items-center gap-3">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-[#2e2e33] bg-[#141417] text-[#fafafa]">
+                  <Bot className="inline-block h-4 w-4 shrink-0" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-base font-semibold tracking-tight text-[#fafafa]">
+                      AI-консультант Lumen
+                    </h2>
+                    <span className="rounded border border-[#27272a] bg-[#141417] px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider text-[#a1a1aa]">
+                      Lumen Assistant · Agentic Tools
+                    </span>
+                  </div>
+                  <p className="mt-0.5 text-xs text-[#a1a1aa]">
+                    Автономное планирование режима: create_habit, update_habit, log_sleep, apply_routine_plan
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex shrink-0 items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => askAdvisor('', [])}
+                  disabled={isLoading}
+                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#27272a] bg-[#141417] text-[#a1a1aa] transition-opacity hover:text-[#fafafa] disabled:opacity-50"
+                  title="Обновить разбор"
+                >
+                  <RefreshCw
+                    className={`inline-block h-3.5 w-3.5 shrink-0 ${isLoading ? 'animate-spin' : ''}`}
+                  />
+                </button>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#27272a] bg-[#141417] text-[#a1a1aa] transition-opacity hover:text-[#fafafa]"
+                  aria-label="Закрыть"
+                >
+                  <X className="inline-block h-4 w-4 shrink-0" />
+                </button>
+              </div>
+            </div>
+
+            {/* Stats summary */}
+            <div className="mt-3.5 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+              <div className="rounded-lg border border-[#222225] bg-[#121214] px-3 py-2">
+                <p className="text-[11px] font-medium text-[#a1a1aa]">Средний сон</p>
+                <p className="mt-0.5 font-mono text-base font-semibold text-[#fafafa]">
+                  {displayStats.avg_sleep_hours ?? 0} ч
+                </p>
+              </div>
+              <div className="rounded-lg border border-[#222225] bg-[#121214] px-3 py-2">
+                <p className="text-[11px] font-medium text-[#a1a1aa]">Качество сна</p>
+                <p className="mt-0.5 font-mono text-base font-semibold text-[#fafafa]">
+                  {displayStats.avg_sleep_quality ?? 0}/5
+                </p>
+              </div>
+              <div className="rounded-lg border border-[#222225] bg-[#121214] px-3 py-2">
+                <p className="text-[11px] font-medium text-[#a1a1aa]">Привычки (7 дн.)</p>
+                <p className="mt-0.5 font-mono text-base font-semibold text-[#fafafa]">
+                  {displayStats.habit_completion_percent ?? 0}%
+                </p>
+              </div>
+              <div className="rounded-lg border border-[#222225] bg-[#121214] px-3 py-2">
+                <p className="text-[11px] font-medium text-[#a1a1aa]">Индекс баланса</p>
+                <p className="mt-0.5 font-mono text-base font-semibold text-[#fafafa]">
+                  {report?.score != null ? `${report.score}/100` : '—'}
+                </p>
+              </div>
+            </div>
+
+            {/* Insights & recommendations */}
+            {report ? (
+              <div className="mt-3.5 grid gap-2.5 sm:grid-cols-2">
+                {Array.isArray(report.insights) && report.insights.length > 0 ? (
+                  <div className="rounded-lg border border-[#222225] bg-[#121214] p-3">
+                    <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#a1a1aa]">
+                      <Lightbulb className="inline-block h-3.5 w-3.5 shrink-0" />
+                      <span>Инсайты по данным</span>
+                    </p>
+                    <ul className="space-y-1 text-xs leading-relaxed text-[#f4f4f5]">
+                      {report.insights.map((item, idx) => (
+                        <li key={idx} className="flex gap-2">
+                          <span className="text-[#71717a]">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {Array.isArray(report.recommendations) && report.recommendations.length > 0 ? (
+                  <div className="rounded-lg border border-[#222225] bg-[#121214] p-3">
+                    <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-[#a1a1aa]">
+                      <CheckCircle2 className="inline-block h-3.5 w-3.5 shrink-0" />
+                      <span>Рекомендации</span>
+                    </p>
+                    <ul className="space-y-1 text-xs leading-relaxed text-[#f4f4f5]">
+                      {report.recommendations.map((item, idx) => (
+                        <li key={idx} className="flex gap-2">
+                          <span className="text-[#fafafa]">✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+
+            {/* Chat & Tool executions */}
+            <div className="mt-3.5 max-h-72 min-h-[110px] space-y-2.5 overflow-y-auto rounded-lg border border-[#222225] bg-[#09090b] p-3">
+              {messages.length === 0 && isLoading ? (
+                <div className="flex items-center gap-2 py-3 text-xs text-[#a1a1aa]">
+                  <Loader2 className="inline-block h-4 w-4 shrink-0 animate-spin" />
+                  <span>AI-консультант Lumen анализирует ваш режим сна и привычек…</span>
+                </div>
+              ) : null}
+
+              {messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`rounded-lg border p-3 text-xs leading-relaxed ${
+                    msg.role === 'user'
+                      ? 'ml-auto max-w-[88%] border-[#2e2e33] bg-[#141417] text-[#fafafa]'
+                      : 'border-[#222225] bg-[#0d0d0e] text-[#f4f4f5]'
+                  }`}
+                >
+                  <div className="mb-1 flex items-center justify-between text-[11px] text-[#a1a1aa]">
+                    <span className="font-semibold">
+                      {msg.role === 'user' ? 'Вы' : 'AI-консультант Lumen'}
+                    </span>
+                    {msg.actions?.length ? (
+                      <span className="inline-flex items-center gap-1 font-mono text-[10px]">
+                        <Wrench className="inline-block h-3 w-3 shrink-0" />
+                        <span>Выполнено: {msg.actions.length}</span>
+                      </span>
+                    ) : null}
+                  </div>
+                  <p>{msg.text}</p>
+
+                  {msg.actions?.length ? (
+                    <div className="mt-2 space-y-2">
+                      {msg.actions.map((action) => (
+                        <ActionBadge
+                          key={action.id}
+                          action={action}
+                          busy={isLoading || actionBusy}
+                          onConfirm={handleConfirm}
+                          onUndo={handleUndo}
+                        />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+
+              {messages.length > 0 && isLoading ? (
+                <div className="flex items-center gap-2 py-1 text-xs text-[#a1a1aa]">
+                  <Loader2 className="inline-block h-3.5 w-3.5 shrink-0 animate-spin" />
+                  <span>AI-консультант Lumen выполняет инструменты…</span>
+                </div>
+              ) : null}
+
+              <div ref={chatEndRef} />
+            </div>
+
+            {error ? (
+              <div className="mt-2 rounded-lg border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-xs text-amber-200">
+                {error}
+              </div>
+            ) : null}
+
+            {/* Quick agentic prompts */}
+            <div className="mt-3">
+              <p className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-[#a1a1aa]">
+                <MessageSquarePlus className="inline-block h-3.5 w-3.5 shrink-0" />
+                <span>Быстрые команды (автоматическое изменение привычек и сна):</span>
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {QUICK_PROMPTS.map((promptText) => (
+                  <button
+                    key={promptText}
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => handleQuickPrompt(promptText)}
+                    className="tag-chip text-left text-xs"
+                  >
+                    {promptText}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Input form — fixed dimensions & overflow-hidden to prevent any layout shift/jitter */}
+            <form
+              className="mt-3.5 flex items-center gap-2 overflow-hidden"
+              onSubmit={handleSubmit}
+            >
+              <input
+                value={question}
+                onChange={(event) => setQuestion(event.target.value)}
+                placeholder="Например: Я плохо спал последние 3 дня, добавь мне дыхание перед сном и смести чтение…"
+                maxLength={1000}
+                className="h-10 min-w-0 flex-1 rounded-lg border border-[#27272a] bg-[#121214] px-3 py-0 text-xs font-medium text-[#fafafa] placeholder:text-[#71717a] outline-none focus:border-[#52525b] focus:outline-none"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !question.trim()}
+                className="inline-flex h-10 w-[145px] min-w-[145px] shrink-0 items-center justify-center gap-2 rounded-lg border border-[#fafafa] bg-[#fafafa] px-3 py-0 text-xs font-semibold text-[#09090b] transition-opacity duration-150 hover:bg-[#e4e4e7] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="inline-block h-4 w-4 flex-shrink-0 animate-spin" />
+                    <span className="truncate">Выполнение...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="inline-block h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">Выполнить</span>
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : null}
+    </>
+  )
+}
+</file>
+
+<file path="src/components/habits/ActivityMatrix.jsx">
+function cellColor(value) {
+  if (value == null) return '#09090b'
+  if (value <= 0) return '#121214'
+  if (value < 0.35) return '#27272a'
+  if (value < 0.65) return '#52525b'
+  if (value < 0.9) return '#a1a1aa'
+  return '#ededed'
+}
+
+export function ActivityMatrix({ matrix }) {
+  const days = matrix?.days || []
+  const columns = []
+  for (let i = 0; i < days.length; i += 7) {
+    columns.push(days.slice(i, i + 7))
+  }
+
+  return (
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h3 className="text-sm font-semibold tracking-tight text-[#ededed]">
+            Матрица дисциплины (16 недель)
+          </h3>
+          <p className="text-xs text-[#71717a]">
+            Доля выполненных привычек за каждый день
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5 text-[11px] text-[#71717a]">
+          <span>меньше</span>
+          {[0, 0.25, 0.5, 0.75, 1].map((value) => (
+            <span
+              key={value}
+              className="heatmap-cell inline-block"
+              style={{ backgroundColor: cellColor(value) }}
+            />
+          ))}
+          <span>больше</span>
+        </div>
+      </div>
+      <div className="flex gap-1 overflow-x-auto pb-1">
+        {columns.map((week, index) => (
+          <div key={index} className="flex flex-col gap-1">
+            {week.map((day) => (
+              <div
+                key={day.date}
+                title={`${day.date}: ${Math.round((day.value || 0) * 100)}%`}
+                className="heatmap-cell"
+                style={{ backgroundColor: cellColor(day.value) }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/habits/HabitCard.jsx">
+import { Check, Trash2 } from 'lucide-react'
+import { playHabitPop } from '../../lib/sound'
+
+const WEEKDAY_SHORT = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+
+export function HabitCard({ habit, onToggle, onDelete }) {
+  const categories = habit.categories || []
+  const completed =
+    habit.completed_this_week ?? habit.week?.completed ?? (habit.completed_today ? 1 : 0)
+  const target =
+    habit.target_days_per_week ?? habit.week?.target ?? habit.target_frequency ?? 7
+  const percent = Math.min(100, Math.round((completed / Math.max(1, target)) * 100))
+  const streak = habit.streak_count ?? habit.streak ?? 0
+  const weekDays = habit.week?.days || []
+
+  return (
+    <div className="flex flex-col justify-between rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4 transition-colors hover:border-[#2e2e33]">
+      <div>
+        <div className="flex items-start justify-between gap-2.5">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {categories.length > 0 ? (
+                categories.map((category) => (
+                  <span
+                    key={category.id}
+                    className="rounded border border-[#222225] bg-[#121214] px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#71717a]"
+                  >
+                    {category.title || category.name}
+                  </span>
+                ))
+              ) : (
+                <span className="rounded border border-[#222225] bg-[#121214] px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#71717a]">
+                  Ритуал
+                </span>
+              )}
+            </div>
+
+            <h3 className="mt-2 truncate text-[15px] font-semibold tracking-tight text-[#ededed]">
+              {habit.title}
+            </h3>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-1.5">
+            <span
+              className="inline-flex items-center gap-1 rounded-md border border-[#222225] bg-[#121214] px-2 py-0.5 text-xs font-medium text-[#ededed]"
+              title={`Лучшая серия: ${habit.best_streak || 0} дн.`}
+            >
+              🔥 {streak} дн.
+            </span>
+
+            <button
+              type="button"
+              onClick={() => {
+                playHabitPop()
+                onToggle(habit)
+              }}
+              aria-label="Отметить привычку"
+              className={`grid h-8 w-8 place-items-center rounded-md border transition-colors ${
+                habit.completed_today
+                  ? 'border-[#ededed] bg-[#ededed] text-[#09090b]'
+                  : 'border-[#222225] bg-[#121214] text-[#71717a] hover:border-[#3f3f46] hover:text-[#ededed]'
+              }`}
+            >
+              <Check size={15} strokeWidth={2.4} />
+            </button>
+          </div>
+        </div>
+
+        {weekDays.length === 7 ? (
+          <div className="mt-3.5 grid grid-cols-7 gap-1">
+            {weekDays.map((day, idx) => (
+              <button
+                key={day.date}
+                type="button"
+                disabled={day.future}
+                onClick={() => onToggle(habit, day.date)}
+                title={`${WEEKDAY_SHORT[idx]} (${day.date})`}
+                className={`flex flex-col items-center rounded border py-1 text-[10px] transition-colors ${
+                  day.done
+                    ? 'border-zinc-500 bg-zinc-200 font-semibold text-zinc-950'
+                    : day.future
+                      ? 'cursor-default border-[#18181b] bg-[#0a0a0b] text-zinc-700'
+                      : 'border-[#222225] bg-[#121214] text-[#71717a] hover:border-[#3f3f46] hover:text-[#ededed]'
+                }`}
+              >
+                <span>{WEEKDAY_SHORT[idx]}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      <div className="mt-4 border-t border-[#18181b] pt-3">
+        <div className="mb-1.5 flex items-center justify-between text-xs">
+          <span className="text-[#71717a]">Недельный план</span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-medium text-[#ededed]">
+              {completed}/{target} дн.
+            </span>
+            {onDelete ? (
+              <button
+                type="button"
+                onClick={() => onDelete(habit)}
+                title="Удалить привычку"
+                className="text-[#71717a] transition-colors hover:text-[#ededed]"
+              >
+                <Trash2 size={12} />
+              </button>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
+          <div
+            className="h-full rounded-full bg-zinc-200 transition-all duration-200"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/habits/HabitsDashboard.jsx">
+import { Loader2, Plus, Sparkles } from 'lucide-react'
+import { useState } from 'react'
+import { LiquidButton } from '../liquid/LiquidButton'
+import { ActivityMatrix } from './ActivityMatrix'
+import { HabitCard } from './HabitCard'
+import { NewHabitModal } from './NewHabitModal'
+import { api } from '../../lib/api'
+
+function buildOptimisticHabit(payload, categories = []) {
+  const today = new Date()
+  const dayOfWeek = (today.getDay() + 6) % 7 // Monday = 0
+  const monday = new Date(today)
+  monday.setDate(today.getDate() - dayOfWeek)
+
+  const days = Array.from({ length: 7 }, (_, idx) => {
+    const d = new Date(monday)
+    d.setDate(monday.getDate() + idx)
+    const iso = d.toISOString().slice(0, 10)
+    return {
+      date: iso,
+      done: false,
+      future: idx > dayOfWeek,
+    }
+  })
+
+  const target = Number(payload.target_days_per_week || payload.target_frequency || 7)
+  const matchedCategories = categories.filter((c) => (payload.category_ids || []).includes(c.id))
+
+  return {
+    id: Date.now(),
+    title: payload.title,
+    target_frequency: target,
+    target_days_per_week: target,
+    streak_count: 0,
+    streak: 0,
+    best_streak: 0,
+    accent: '#e4e4e7',
+    color: '#e4e4e7',
+    is_active: true,
+    completed_today: false,
+    completed_this_week: 0,
+    week: {
+      completed: 0,
+      target,
+      days,
+    },
+    categories: matchedCategories,
+  }
+}
+
+export function HabitsDashboard({
+  habits,
+  categories,
+  matrix,
+  onRefresh,
+  onHabitsChange,
+  onOpenAdvisor,
+}) {
+  const [open, setOpen] = useState(false)
+  const [quickTitle, setQuickTitle] = useState('')
+  const [quickDays, setQuickDays] = useState(7)
+  const [quickSaving, setQuickSaving] = useState(false)
+
+  const completedToday = habits.filter((h) => h.completed_today).length
+  const totalActive = habits.length
+  const weeklyDone = habits.reduce(
+    (acc, h) => acc + (h.completed_this_week ?? h.week?.completed ?? 0),
+    0,
+  )
+  const weeklyTarget = habits.reduce(
+    (acc, h) => acc + (h.target_days_per_week ?? h.week?.target ?? h.target_frequency ?? 7),
+    0,
+  )
+
+  async function createHabit(payload) {
+    try {
+      const response = await api.createHabit(payload)
+      const created = response?.data ?? response
+      if (created && created.id) {
+        onHabitsChange?.((prev) => {
+          const exists = prev.some((item) => item.id === created.id)
+          return exists ? prev.map((item) => (item.id === created.id ? created : item)) : [...prev, created]
+        })
+      }
+      setOpen(false)
+      await onRefresh?.()
+      return created
+    } catch {
+      const fallback = buildOptimisticHabit(payload, categories)
+      onHabitsChange?.((prev) => [...prev, fallback])
+      setOpen(false)
+      return fallback
+    }
+  }
+
+  async function handleQuickSubmit(event) {
+    event.preventDefault()
+    const trimmed = quickTitle.trim()
+    if (!trimmed || quickSaving) return
+
+    setQuickSaving(true)
+    try {
+      await createHabit({
+        title: trimmed,
+        target_frequency: Number(quickDays),
+        target_days_per_week: Number(quickDays),
+        category_ids: categories[0] ? [categories[0].id] : [],
+      })
+      setQuickTitle('')
+      setQuickDays(7)
+    } finally {
+      setQuickSaving(false)
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#222225] pb-3.5">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#a1a1aa]">
+            Ежедневная дисциплина
+          </p>
+          <h1 className="mt-0.5 text-xl font-semibold tracking-tight text-[#fafafa]">
+            Привычки и ритуалы
+          </h1>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {onOpenAdvisor ? (
+            <LiquidButton type="button" onClick={onOpenAdvisor}>
+              <Sparkles size={14} className="shrink-0" />
+              <span>AI-консультант Lumen</span>
+            </LiquidButton>
+          ) : null}
+          <LiquidButton type="button" variant="primary" onClick={() => setOpen(true)}>
+            <Plus size={14} className="shrink-0" />
+            <span>Новая привычка</span>
+          </LiquidButton>
+        </div>
+      </div>
+
+      {/* High-density summary strip */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
+          <div className="text-xs font-medium text-[#a1a1aa]">Выполнено сегодня</div>
+          <div className="mt-1 font-mono text-lg font-semibold text-[#fafafa]">
+            {completedToday}/{totalActive}
+          </div>
+        </div>
+        <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
+          <div className="text-xs font-medium text-[#a1a1aa]">Прогресс недели</div>
+          <div className="mt-1 font-mono text-lg font-semibold text-[#fafafa]">
+            {weeklyDone}/{weeklyTarget} дн.
+          </div>
+        </div>
+        <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
+          <div className="text-xs font-medium text-[#a1a1aa]">Лучшая серия</div>
+          <div className="mt-1 font-mono text-lg font-semibold text-[#fafafa]">
+            🔥 {habits.reduce((max, h) => Math.max(max, h.best_streak || 0), 0)} дн.
+          </div>
+        </div>
+        <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
+          <div className="text-xs font-medium text-[#a1a1aa]">Активных привычек</div>
+          <div className="mt-1 font-mono text-lg font-semibold text-[#fafafa]">{totalActive}</div>
+        </div>
+      </div>
+
+      {/* Quick inline habit creation bar (shadcn style) */}
+      <form
+        onSubmit={handleQuickSubmit}
+        className="flex flex-wrap items-center gap-2 overflow-hidden rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-2.5 sm:flex-nowrap"
+      >
+        <input
+          value={quickTitle}
+          onChange={(event) => setQuickTitle(event.target.value)}
+          placeholder="Быстрое добавление привычки (например: Медитация 10 мин или Чтение перед сном)…"
+          maxLength={120}
+          className="h-10 min-w-[200px] flex-1 rounded-lg border border-[#27272a] bg-[#121214] px-3 text-xs font-medium text-[#fafafa] placeholder:text-[#71717a] focus:border-[#52525b] focus:outline-none"
+        />
+        <div className="flex items-center gap-1.5">
+          <select
+            value={quickDays}
+            onChange={(event) => setQuickDays(Number(event.target.value))}
+            aria-label="Целевое количество дней в неделю"
+            className="h-10 rounded-lg border border-[#27272a] bg-[#121214] px-2.5 font-mono text-xs font-medium text-[#fafafa] focus:border-[#52525b] focus:outline-none"
+          >
+            {[7, 6, 5, 4, 3, 2, 1].map((d) => (
+              <option key={d} value={d}>
+                {d}/7 дн.
+              </option>
+            ))}
+          </select>
+          <button
+            type="submit"
+            disabled={quickSaving || !quickTitle.trim()}
+            className="inline-flex h-10 w-[135px] min-w-[135px] shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[#fafafa] bg-[#fafafa] px-3 text-xs font-semibold text-[#09090b] transition-opacity hover:bg-[#e4e4e7] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {quickSaving ? (
+              <>
+                <Loader2 className="inline-block h-4 w-4 shrink-0 animate-spin" />
+                <span>Создание…</span>
+              </>
+            ) : (
+              <>
+                <Plus className="inline-block h-4 w-4 shrink-0" />
+                <span>Добавить</span>
+              </>
+            )}
+          </button>
+        </div>
+      </form>
+
+      <NewHabitModal
+        open={open}
+        categories={categories}
+        onClose={() => setOpen(false)}
+        onSave={createHabit}
+      />
+
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {habits.map((habit) => (
+          <HabitCard
+            key={habit.id}
+            habit={habit}
+            onToggle={async (item, date) => {
+              try {
+                const updated = await api.toggleHabit(item.id, date)
+                const nextHabit = updated?.data ?? updated
+                if (nextHabit && nextHabit.id) {
+                  onHabitsChange?.((prev) =>
+                    prev.map((h) => (h.id === nextHabit.id ? nextHabit : h)),
+                  )
+                }
+                await onRefresh?.()
+              } catch {
+                onHabitsChange?.((prev) =>
+                  prev.map((h) =>
+                    h.id === item.id
+                      ? {
+                          ...h,
+                          completed_today: !h.completed_today,
+                          completed_this_week: Math.max(
+                            0,
+                            (h.completed_this_week || 0) + (h.completed_today ? -1 : 1),
+                          ),
+                          streak_count: Math.max(
+                            0,
+                            (h.streak_count || 0) + (h.completed_today ? -1 : 1),
+                          ),
+                        }
+                      : h,
+                  ),
+                )
+              }
+            }}
+            onDelete={async (item) => {
+              onHabitsChange?.((prev) => prev.filter((h) => h.id !== item.id))
+              try {
+                await api.deleteHabit(item.id)
+                await onRefresh?.()
+              } catch {
+                // Already removed optimistically
+              }
+            }}
+          />
+        ))}
+
+        {/* Card button to open NewHabitModal */}
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex min-h-[148px] flex-col items-center justify-center gap-2 rounded-[10px] border border-dashed border-[#27272a] bg-[#0a0a0c] p-4 text-xs font-semibold text-[#a1a1aa] transition-colors hover:border-[#52525b] hover:bg-[#121214] hover:text-[#fafafa]"
+        >
+          <span className="grid h-9 w-9 place-items-center rounded-lg border border-[#27272a] bg-[#141417] text-[#fafafa]">
+            <Plus size={16} />
+          </span>
+          <span>Создать новую привычку</span>
+        </button>
+      </div>
+
+      <ActivityMatrix matrix={matrix} />
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/habits/NewHabitModal.jsx">
+import { Check, Plus, Sparkles, X } from 'lucide-react'
+import { useState } from 'react'
+import { LiquidButton } from '../liquid/LiquidButton'
+
+const PRESET_HABITS = [
+  { title: 'Дыхание 4-7-8 (21:40)', days: 7 },
+  { title: 'Чтение бумажной книги 20 мин', days: 6 },
+  { title: 'Стакан воды 400 мл (07:30)', days: 7 },
+  { title: 'Без экранов за 1 ч до сна', days: 7 },
+]
+
+export function NewHabitModal({ open, categories = [], onClose, onSave }) {
+  const [title, setTitle] = useState('')
+  const [targetDays, setTargetDays] = useState(7)
+  const [selected, setSelected] = useState([])
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  if (!open) return null
+
+  function reset() {
+    setTitle('')
+    setTargetDays(7)
+    setSelected([])
+    setError('')
+  }
+
+  function close() {
+    if (saving) return
+    reset()
+    onClose()
+  }
+
+  function toggleCategory(id) {
+    setSelected((current) =>
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
+    )
+  }
+
+  async function submit(event) {
+    event.preventDefault()
+    const cleanTitle = title.trim()
+    if (!cleanTitle) {
+      setError('Укажите название привычки')
+      return
+    }
+    setSaving(true)
+    setError('')
+    try {
+      await onSave({
+        title: cleanTitle,
+        target_frequency: Number(targetDays),
+        target_days_per_week: Number(targetDays),
+        category_ids: selected,
+      })
+      reset()
+    } catch (err) {
+      setError(err.message || 'Не удалось сохранить привычку')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="glass-modal-backdrop" onClick={close}>
+      <div
+        className="w-full max-w-md rounded-xl border border-[#27272a] bg-[#0d0d0e] p-5 shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="mb-4 flex items-center justify-between border-b border-[#222225] pb-3.5">
+          <div>
+            <h2 className="text-base font-semibold tracking-tight text-[#fafafa]">
+              Новая привычка
+            </h2>
+            <p className="mt-0.5 text-xs text-[#a1a1aa]">
+              Добавьте ежедневный ритуал и укажите целевую частоту на неделю
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[#27272a] bg-[#141417] text-[#a1a1aa] hover:text-[#fafafa]"
+            aria-label="Закрыть"
+          >
+            <X size={15} />
+          </button>
+        </div>
+
+        <form className="space-y-4" onSubmit={submit}>
+          <div>
+            <label htmlFor="habit-title-input" className="block text-xs font-medium text-[#a1a1aa]">
+              Название привычки
+            </label>
+            <input
+              id="habit-title-input"
+              autoFocus
+              value={title}
+              onChange={(event) => {
+                setTitle(event.target.value)
+                if (error) setError('')
+              }}
+              placeholder="Например: Дыхание 4-7-8"
+              maxLength={120}
+              className="glass-input mt-1.5"
+            />
+          </div>
+
+          <div>
+            <p className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-[#a1a1aa]">
+              <Sparkles size={12} /> Быстрые шаблоны
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {PRESET_HABITS.map((preset) => (
+                <button
+                  key={preset.title}
+                  type="button"
+                  onClick={() => {
+                    setTitle(preset.title)
+                    setTargetDays(preset.days)
+                    setError('')
+                  }}
+                  className="tag-chip text-left text-xs"
+                >
+                  {preset.title}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-medium text-[#a1a1aa]">
+              Цель (дней в неделю): <span className="font-mono text-[#fafafa]">{targetDays}/7</span>
+            </p>
+            <div className="mt-1.5 grid grid-cols-7 gap-1.5" role="group" aria-label="Цель дней в неделю">
+              {[1, 2, 3, 4, 5, 6, 7].map((days) => (
+                <button
+                  key={days}
+                  type="button"
+                  onClick={() => setTargetDays(days)}
+                  className={`h-9 rounded-lg border font-mono text-xs font-semibold transition-colors ${
+                    targetDays === days
+                      ? 'border-[#fafafa] bg-[#fafafa] text-[#09090b]'
+                      : 'border-[#27272a] bg-[#141417] text-[#a1a1aa] hover:bg-[#1f1f23] hover:text-[#fafafa]'
+                  }`}
+                >
+                  {days} дн.
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-1.5 text-xs font-medium text-[#a1a1aa]">Категории</p>
+            {categories.length === 0 ? (
+              <p className="text-xs text-[#71717a]">Категории будут назначены автоматически.</p>
+            ) : (
+              <div className="flex flex-wrap gap-1.5" role="group" aria-label="Категории">
+                {categories.map((category) => {
+                  const isSelected = selected.includes(category.id)
+                  return (
+                    <button
+                      key={category.id}
+                      type="button"
+                      className="tag-chip"
+                      aria-pressed={isSelected}
+                      onClick={() => toggleCategory(category.id)}
+                    >
+                      {isSelected ? <Check size={11} /> : <span className="tag-chip__dot" />}
+                      {category.title || category.name}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+
+          {error ? <p className="text-xs font-medium text-red-400">{error}</p> : null}
+
+          <div className="flex justify-end gap-2 border-t border-[#222225] pt-3.5">
+            <LiquidButton type="button" variant="ghost" onClick={close} disabled={saving}>
+              Отмена
+            </LiquidButton>
+            <LiquidButton
+              type="submit"
+              variant="primary"
+              disabled={saving}
+              className="min-w-[130px]"
+            >
+              <Plus size={14} />
+              <span>{saving ? 'Сохранение…' : 'Создать'}</span>
+            </LiquidButton>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/layout/AppShell.jsx">
+import { Bot, CheckSquare, MoonStar } from 'lucide-react'
+import { ThemeToggle } from '../theme/ThemeToggle'
+import { unlockAudio } from '../../lib/sound'
+
+export function AppShell({ tab, setTab, user, onOpenAdvisor, children }) {
+  return (
+    <div className="min-h-svh bg-[#000000] text-[#ededed]" onPointerDown={unlockAudio}>
+      <div className="mx-auto flex max-w-[1280px] gap-5 px-4 py-4 pb-20 lg:px-6">
+        <aside className="hidden w-60 shrink-0 flex-col justify-between rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-3.5 md:flex">
+          <div>
+            <div className="mb-6 flex items-center justify-between border-b border-[#222225] px-1.5 pb-3.5">
+              <div className="flex items-center gap-2.5">
+                <div className="grid h-7 w-7 place-items-center rounded-md border border-[#2e2e33] bg-[#121214] font-mono text-xs font-bold text-[#ededed]">
+                  L
+                </div>
+                <div>
+                  <p className="text-sm font-semibold leading-none tracking-tight text-[#ededed]">
+                    Lumen
+                  </p>
+                  <p className="mt-1 text-[11px] leading-none text-[#71717a]">Habit & Sleep</p>
+                </div>
+              </div>
+              <span className="rounded border border-[#222225] bg-[#121214] px-1.5 py-0.5 font-mono text-[10px] text-[#71717a]">
+                v2.0
+              </span>
+            </div>
+
+            <nav className="space-y-1">
+              {[
+                { id: 'habits', label: 'Привычки', icon: CheckSquare },
+                { id: 'sleep', label: 'Трекер сна', icon: MoonStar },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setTab(item.id)}
+                  className={`flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left text-xs font-medium transition-colors ${
+                    tab === item.id
+                      ? 'border-[#2e2e33] bg-[#121214] text-[#ededed]'
+                      : 'border-transparent text-[#71717a] hover:bg-[#121214] hover:text-[#ededed]'
+                  }`}
+                >
+                  <item.icon size={15} />
+                  {item.label}
+                </button>
+              ))}
+
+              {onOpenAdvisor ? (
+                <button
+                  type="button"
+                  onClick={onOpenAdvisor}
+                  className="mt-2 flex w-full items-center gap-2.5 rounded-lg border border-[#222225] bg-[#121214] px-3 py-2 text-left text-xs font-medium text-[#ededed] transition-colors hover:border-[#3f3f46]"
+                >
+                  <Bot size={15} />
+                  AI-консультант Lumen
+                </button>
+              ) : null}
+            </nav>
+          </div>
+
+          <div className="mt-8 border-t border-[#222225] px-1.5 pt-3 text-xs">
+            <div className="font-medium text-[#ededed]">{user?.name || 'Aurora'}</div>
+            <div className="truncate text-[11px] text-[#71717a]">
+              {user?.email || 'demo@habit.local'}
+            </div>
+          </div>
+        </aside>
+
+        <main className="min-w-0 flex-1">
+          <header className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
+            <div className="flex gap-1.5 md:hidden">
+              <button
+                type="button"
+                className="rounded-md border border-[#222225] bg-[#121214] px-2.5 py-1 text-xs"
+                onClick={() => setTab('habits')}
+              >
+                Привычки
+              </button>
+              <button
+                type="button"
+                className="rounded-md border border-[#222225] bg-[#121214] px-2.5 py-1 text-xs"
+                onClick={() => setTab('sleep')}
+              >
+                Сон
+              </button>
+              {onOpenAdvisor ? (
+                <button
+                  type="button"
+                  className="rounded-md border border-[#222225] bg-[#121214] px-2.5 py-1 text-xs"
+                  onClick={onOpenAdvisor}
+                >
+                  AI-консультант
+                </button>
+              ) : null}
+            </div>
+
+            <div className="hidden items-center gap-2 text-xs text-[#71717a] md:flex">
+              <span className="font-medium text-[#ededed]">Lumen Workspace</span>
+              <span>·</span>
+              <span>Минимум визуального шума, фокус на дисциплине</span>
+            </div>
+
+            <div className="ml-auto flex items-center gap-2">
+              <ThemeToggle />
+            </div>
+          </header>
+
+          <div>{children}</div>
+        </main>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/liquid/LiquidButton.jsx">
+import { playGlassClick } from '../../lib/sound'
+
+export function LiquidButton({
+  children,
+  className = '',
+  variant = 'secondary',
+  type = 'button',
+  onClick,
+  sound = false,
+  ...props
+}) {
+  const variantClass =
+    variant === 'primary'
+      ? 'lumen-btn--primary'
+      : variant === 'ghost'
+        ? 'lumen-btn--ghost'
+        : ''
+
+  return (
+    <button
+      type={type}
+      className={`liquid-btn ${variantClass} ${className}`}
+      onClick={(event) => {
+        if (sound) playGlassClick()
+        onClick?.(event)
+      }}
+      {...props}
+    >
+      <span className="inline-flex items-center gap-2">{children}</span>
+    </button>
+  )
+}
+</file>
+
+<file path="src/components/liquid/LiquidCard.jsx">
+/**
+ * Minimalist monochrome card container (#0d0d0e surface, #222225 border).
+ * Zero cursor glow, zero optical refraction, zero hover scale bounce.
+ */
+export function LiquidCard({
+  as: Tag = 'div',
+  className = '',
+  children,
+  onClick,
+}) {
+  return (
+    <Tag className={`liquid-glass-card ${className}`} onClick={onClick}>
+      <div className="liquid-glass-card__content">{children}</div>
+    </Tag>
+  )
+}
+</file>
+
+<file path="src/components/liquid/LiquidLensFilters.jsx">
+export function LiquidLensFilters() {
+  return null
+}
+</file>
+
+<file path="src/components/sleep/AiAdviceCard.jsx">
+import { MessageSquare, Sparkles } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { LiquidButton } from '../liquid/LiquidButton'
+import { api } from '../../lib/api'
+
+export function AiAdviceCard({ refreshKey, onOpenAdvisor }) {
+  const [advice, setAdvice] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    try {
+      setAdvice(await api.aiAdvice())
+    } catch (err) {
+      setError(err.message || 'Не удалось получить совет')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    load()
+  }, [load, refreshKey])
+
+  return (
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-[#71717a]">
+            <Sparkles size={13} /> Сводка · AI-консультант Lumen
+          </p>
+          {error ? <p className="mt-2 text-xs text-red-400">{error}</p> : null}
+          {advice ? (
+            <>
+              <p className="mt-2 text-sm leading-relaxed text-[#ededed]">{advice.summary}</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-[#71717a]">
+                {advice.recommendation}
+              </p>
+            </>
+          ) : loading ? (
+            <p className="mt-2 text-xs text-[#71717a]">Анализируем вашу неделю…</p>
+          ) : null}
+        </div>
+        {advice ? (
+          <div
+            className="grid h-14 w-14 shrink-0 place-items-center rounded-lg border border-[#222225] bg-[#121214] font-mono text-base font-semibold text-[#ededed]"
+            aria-label={`Общий балл ${advice.score} из 100`}
+          >
+            {advice.score}
+          </div>
+        ) : null}
+      </div>
+      <div className="mt-3 flex flex-wrap justify-end gap-2 border-t border-[#18181b] pt-3">
+        {onOpenAdvisor ? (
+          <LiquidButton variant="primary" onClick={onOpenAdvisor}>
+            <MessageSquare size={14} />
+            Открыть AI-консультант Lumen
+          </LiquidButton>
+        ) : null}
+        <LiquidButton onClick={load} disabled={loading}>
+          {loading ? 'Обновление…' : 'Обновить сводку'}
+        </LiquidButton>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/sleep/SleepChart.jsx">
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+
+function MonochromeTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null
+  const point = payload[0].payload
+  const hours = Math.floor((point.minutes || 0) / 60)
+  const minutes = (point.minutes || 0) % 60
+
+  return (
+    <div className="rounded-lg border border-[#222225] bg-[#121214] px-3 py-2 text-xs text-[#ededed]">
+      <div className="text-[#71717a]">
+        {label} · {point.date}
+      </div>
+      <div className="mt-0.5 font-mono font-semibold">
+        {point.minutes ? `${hours} ч ${minutes} мин` : 'нет записи'}
+      </div>
+      {point.minutes ? <div className="text-[#71717a]">Норма: {point.goal_percent}%</div> : null}
+      {point.quality ? <div className="text-[#71717a]">Качество: {point.quality}/5</div> : null}
+    </div>
+  )
+}
+
+export function SleepChart({ chart }) {
+  return (
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-semibold tracking-tight text-[#ededed]">
+            Динамика сна · 7 дней
+          </h3>
+          <p className="text-xs text-[#71717a]">Продолжительность сна по суткам (ориентир 8 ч)</p>
+        </div>
+        <span className="font-mono text-xs text-[#71717a]">ч / сутки</span>
+      </div>
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={chart} margin={{ top: 10, right: 8, left: -18, bottom: 0 }}>
+            <defs>
+              <linearGradient id="monoSleepFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#e4e4e7" stopOpacity={0.22} />
+                <stop offset="100%" stopColor="#e4e4e7" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid stroke="#18181b" vertical={false} />
+            <XAxis
+              dataKey="label"
+              tick={{ fill: '#71717a', fontSize: 12 }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <YAxis
+              tick={{ fill: '#71717a', fontSize: 12 }}
+              axisLine={false}
+              tickLine={false}
+              domain={[0, 10]}
+              unit="ч"
+            />
+            <Tooltip
+              content={<MonochromeTooltip />}
+              cursor={{ stroke: '#52525b', strokeDasharray: '3 3' }}
+              wrapperStyle={{ outline: 'none' }}
+            />
+            <Area
+              type="monotone"
+              dataKey="hours"
+              stroke="#ededed"
+              fill="url(#monoSleepFill)"
+              strokeWidth={2}
+              dot={{ r: 3, fill: '#ededed', strokeWidth: 0 }}
+              activeDot={{ r: 5, fill: '#ffffff', stroke: '#09090b', strokeWidth: 2 }}
+              animationDuration={400}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/sleep/SleepDashboard.jsx">
+import { AiAdviceCard } from './AiAdviceCard'
+import { SleepChart } from './SleepChart'
+import { SleepQualityWidget } from './SleepQualityWidget'
+import { SleepQuickForm } from './SleepQuickForm'
+import { api } from '../../lib/api'
+import { playSleepChime } from '../../lib/sound'
+
+export function SleepDashboard({ stats, onRefresh, onOpenAdvisor }) {
+  const chart = stats?.chart || []
+
+  return (
+    <div className="space-y-5">
+      <div>
+        <p className="text-sm text-[var(--muted)]">Ночной ритм</p>
+        <h1 className="text-3xl font-semibold tracking-tight">Трекер сна</h1>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
+        <SleepQuickForm
+          onSave={async (payload) => {
+            const saved = await api.saveSleep(payload)
+            if (saved.goal_percent >= 100) playSleepChime()
+            await onRefresh()
+          }}
+        />
+        <SleepChart chart={chart} />
+      </div>
+
+      <SleepQualityWidget stats={stats || {}} />
+      <AiAdviceCard refreshKey={stats?.nights_logged} onOpenAdvisor={onOpenAdvisor} />
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/sleep/SleepQualityWidget.jsx">
+export function SleepQualityWidget({ stats }) {
+  const cards = [
+    { label: 'Средняя длительность', value: `${stats.average_hours || 0} ч` },
+    { label: 'От цели 8 ч', value: `${stats.goal_percent || 0}%` },
+    { label: 'Регулярность', value: `${stats.regularity || 0}%` },
+    { label: 'Качество', value: `${stats.average_quality || 0}/5` },
+  ]
+
+  return (
+    <div className="space-y-3">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {cards.map((card) => (
+          <div
+            key={card.label}
+            className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4"
+          >
+            <p className="text-xs text-[#71717a]">{card.label}</p>
+            <p className="mt-1.5 font-mono text-2xl font-semibold tracking-tight text-[#ededed]">
+              {card.value}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+        <p className="text-[11px] font-medium uppercase tracking-wider text-[#71717a]">
+          Рекомендация недели
+        </p>
+        <p className="mt-1.5 text-sm leading-relaxed text-[#ededed]">{stats.recommendation}</p>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/sleep/SleepQuickForm.jsx">
+import { useMemo, useState } from 'react'
+import { LiquidButton } from '../liquid/LiquidButton'
+
+const GOAL_MINUTES = 480
+
+function duration(bed, wake) {
+  const [bh, bm] = bed.split(':').map(Number)
+  const [wh, wm] = wake.split(':').map(Number)
+  let minutes = wh * 60 + wm - (bh * 60 + bm)
+  if (minutes <= 0) minutes += 24 * 60
+  return {
+    minutes,
+    label: `${Math.floor(minutes / 60)} ч ${minutes % 60} мин`,
+    percent: Math.min(100, Math.round((minutes / GOAL_MINUTES) * 100)),
+  }
+}
+
+function todayLocal() {
+  const now = new Date()
+  const pad = (value) => String(value).padStart(2, '0')
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+}
+
+export function SleepQuickForm({ onSave }) {
+  const [bed, setBed] = useState('23:30')
+  const [wake, setWake] = useState('07:30')
+  const [quality, setQuality] = useState(4)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const summary = useMemo(() => duration(bed, wake), [bed, wake])
+
+  async function submit(event) {
+    event.preventDefault()
+    setSaving(true)
+    setError('')
+    setMessage('')
+    try {
+      await onSave({
+        bed_time: bed,
+        wake_time: wake,
+        quality_rating: quality,
+        date: todayLocal(),
+      })
+      setMessage('Ночь сохранена')
+    } catch (err) {
+      setError(err.message || 'Не удалось сохранить')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
+      <h3 className="mb-3 text-sm font-semibold text-[#ededed]">Быстрая запись сна</h3>
+      <form className="space-y-3.5" onSubmit={submit}>
+        <div className="grid grid-cols-2 gap-3">
+          <label className="text-xs text-[#71717a]">
+            Засыпание
+            <input
+              type="time"
+              required
+              value={bed}
+              onChange={(event) => setBed(event.target.value)}
+              className="glass-input mt-1"
+            />
+          </label>
+          <label className="text-xs text-[#71717a]">
+            Пробуждение
+            <input
+              type="time"
+              required
+              value={wake}
+              onChange={(event) => setWake(event.target.value)}
+              className="glass-input mt-1"
+            />
+          </label>
+        </div>
+
+        <div className="flex items-center justify-between rounded-lg border border-[#222225] bg-[#121214] px-3 py-2 text-xs">
+          <span className="text-[#71717a]">Длительность</span>
+          <span className="font-mono font-medium text-[#ededed]">
+            {summary.label} · {summary.percent}% от 8 ч
+          </span>
+        </div>
+
+        <div>
+          <p className="mb-1.5 text-xs text-[#71717a]">Качество сна: {quality}/5</p>
+          <div className="grid grid-cols-5 gap-1.5" role="radiogroup" aria-label="Оценка качества сна">
+            {[1, 2, 3, 4, 5].map((score) => (
+              <button
+                key={score}
+                type="button"
+                role="radio"
+                aria-checked={quality === score}
+                aria-label={`Оценка ${score}`}
+                onClick={() => setQuality(score)}
+                className={`rounded-md border py-2 font-mono text-xs font-medium transition-colors ${
+                  quality === score
+                    ? 'border-[#ededed] bg-[#ededed] text-[#09090b]'
+                    : 'border-[#222225] bg-[#121214] text-[#71717a] hover:border-[#3f3f46] hover:text-[#ededed]'
+                }`}
+              >
+                {score}/5
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 pt-1">
+          <p className={`text-xs ${error ? 'text-red-400' : 'text-[#a1a1aa]'}`}>
+            {error || message}
+          </p>
+          <LiquidButton type="submit" variant="primary" disabled={saving}>
+            {saving ? 'Сохраняем…' : 'Сохранить ночь'}
+          </LiquidButton>
+        </div>
+      </form>
+    </div>
+  )
+}
+</file>
+
+<file path="src/components/theme/ThemeToggle.jsx">
+export function ThemeToggle() {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-md border border-[#222225] bg-[#0d0d0e] px-2.5 py-1 text-[11px] font-medium text-[#71717a]">
+      <span className="h-1.5 w-1.5 rounded-full bg-zinc-300" />
+      OLED Monochrome
+    </span>
+  )
+}
+</file>
+
+<file path="src/context/ThemeContext.jsx">
+import { createContext } from 'react'
+
+const ThemeContext = createContext({
+  theme: 'monochrome',
+  setTheme: () => {},
+})
+
+export function ThemeProvider({ children }) {
+  return (
+    <ThemeContext.Provider value={{ theme: 'monochrome', setTheme: () => {} }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+</file>
+
+<file path="src/lib/api.js">
+const TOKEN_KEY = 'lumen.token'
+const DEFAULT_TIMEOUT_MS = 15000
+
+function headers() {
+  const token = localStorage.getItem(TOKEN_KEY)
+  return {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  }
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: options.signal || controller.signal,
+    })
+  } catch (err) {
+    if (err?.name === 'AbortError') {
+      const timeoutError = new Error('Превышено время ожидания ответа от сервера (таймаут 15 сек).')
+      timeoutError.code = 'ETIMEDOUT'
+      throw timeoutError
+    }
+    throw err
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
+async function request(path, options = {}, retried = false) {
+  const { timeoutMs = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options
+
+  const response = await fetchWithTimeout(
+    `/api${path}`,
+    {
+      ...fetchOptions,
+      headers: { ...headers(), ...(fetchOptions.headers || {}) },
+    },
+    timeoutMs,
+  )
+
+  if (response.status === 204) {
+    return null
+  }
+
+  if (response.status === 401 && !retried && path !== '/auth/demo') {
+    localStorage.removeItem(TOKEN_KEY)
+    await ensureSession()
+    return request(path, options, true)
+  }
+
+  const payload = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    const firstError = payload.errors ? Object.values(payload.errors)[0]?.[0] : null
+    const error = new Error(firstError || payload.message || 'Не удалось выполнить запрос к серверу')
+    error.status = response.status
+    error.payload = payload
+    throw error
+  }
+
+  return payload
+}
+
+export async function ensureSession() {
+  if (!localStorage.getItem(TOKEN_KEY)) {
+    const data = await request('/auth/demo', { method: 'POST' }, true)
+    if (data?.token) {
+      localStorage.setItem(TOKEN_KEY, data.token)
+    }
+    return data?.user || { id: 1, name: 'Aurora', email: 'demo@habit.local' }
+  }
+  try {
+    return await request('/user', {}, true)
+  } catch {
+    localStorage.removeItem(TOKEN_KEY)
+    const data = await request('/auth/demo', { method: 'POST' }, true)
+    if (data?.token) {
+      localStorage.setItem(TOKEN_KEY, data.token)
+    }
+    return data?.user || { id: 1, name: 'Aurora', email: 'demo@habit.local' }
+  }
+}
+
+export const api = {
+  habits: () => request('/habits'),
+  createHabit: (body) => request('/habits', { method: 'POST', body: JSON.stringify(body) }),
+  updateHabit: (id, body) =>
+    request(`/habits/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+  toggleHabit: (id, date) =>
+    request(`/habits/${id}/toggle`, { method: 'POST', body: JSON.stringify(date ? { date } : {}) }),
+  deleteHabit: (id) => request(`/habits/${id}`, { method: 'DELETE' }),
+  categories: () => request('/categories'),
+  sleepLogs: () => request('/sleep'),
+  sleepStats: () => request('/sleep/stats'),
+  saveSleep: (body) => request('/sleep', { method: 'POST', body: JSON.stringify(body) }),
+  matrix: () => request('/matrix?weeks=16'),
+  aiAdvice: () => request('/ai/advice'),
+  aiAdvisor: (body = {}, options = {}) =>
+    request('/ai/advisor', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      timeoutMs: options.timeoutMs ?? 15000,
+      signal: options.signal,
+    }),
+  confirmAiAction: (id) => request(`/ai/actions/${id}/confirm`, { method: 'POST' }),
+  undoAiAction: (id) => request(`/ai/actions/${id}/undo`, { method: 'POST' }),
+}
+</file>
+
+<file path="src/lib/sound.js">
+let ctx
+
+function audio() {
+  if (!ctx) {
+    ctx = new AudioContext()
+  }
+  if (ctx.state === 'suspended') {
+    ctx.resume()
+  }
+  return ctx
+}
+
+function tone({ type = 'sine', freq = 440, duration = 0.12, gain = 0.05, slide = 0 }) {
+  const c = audio()
+  const osc = c.createOscillator()
+  const g = c.createGain()
+  const filter = c.createBiquadFilter()
+  osc.type = type
+  osc.frequency.setValueAtTime(freq, c.currentTime)
+  if (slide) {
+    osc.frequency.exponentialRampToValueAtTime(Math.max(40, freq + slide), c.currentTime + duration)
+  }
+  filter.type = 'lowpass'
+  filter.frequency.value = 1800
+  g.gain.setValueAtTime(gain, c.currentTime)
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + duration)
+  osc.connect(filter).connect(g).connect(c.destination)
+  osc.start()
+  osc.stop(c.currentTime + duration + 0.02)
+}
+
+export function unlockAudio() {
+  try {
+    audio()
+  } catch {
+    /* ignore */
+  }
+}
+
+export function playGlassClick() {
+  tone({ type: 'triangle', freq: 980, duration: 0.07, gain: 0.035 })
+}
+
+export function playHabitPop() {
+  tone({ type: 'sine', freq: 420, duration: 0.11, gain: 0.06, slide: 220 })
+  setTimeout(() => tone({ type: 'triangle', freq: 720, duration: 0.08, gain: 0.03 }), 40)
+}
+
+export function playSleepChime() {
+  tone({ type: 'sine', freq: 523.25, duration: 0.18, gain: 0.045 })
+  setTimeout(() => tone({ type: 'sine', freq: 659.25, duration: 0.22, gain: 0.04 }), 90)
+  setTimeout(() => tone({ type: 'triangle', freq: 783.99, duration: 0.28, gain: 0.03 }), 180)
+}
+</file>
+
+<file path="src/styles/liquid.css">
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: dark;
+  --bg-0: #000000;
+  --bg-1: #000000;
+  --surface: #0d0d0e;
+  --surface-elevated: #121214;
+  --glass: #0d0d0e;
+  --glass-strong: #121214;
+  --line: #222225;
+  --border: #222225;
+  --border-strong: #2e2e33;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --accent: #fafafa;
+  --accent-2: #a1a1aa;
+  --good: #e4e4e7;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: #000000;
+  color: #f4f4f5;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #000000;
+  color: #f4f4f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  letter-spacing: -0.016em;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: #fafafa;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -0.014em;
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Monochrome OLED surfaces — shadcn/ui + Apple dark aesthetic */
+.liquid-glass-card,
+.liquid-lens,
+.lumen-card {
+  position: relative;
+  background-color: #0d0d0e;
+  border: 1px solid #222225;
+  border-radius: 10px;
+}
+
+.liquid-glass-pill {
+  background-color: #121214;
+  border: 1px solid #222225;
+  border-radius: 8px;
+}
+
+.liquid-glass-card__content {
+  position: relative;
+}
+
+.liquid-btn,
+.lumen-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  height: 2.25rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0 0.875rem;
+  cursor: pointer;
+  background-color: #141417;
+  color: #f4f4f5;
+  border: 1px solid #27272a;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color 120ms ease, color 120ms ease, opacity 120ms ease;
+}
+
+.liquid-btn:hover:not(:disabled),
+.lumen-btn:hover:not(:disabled) {
+  background-color: #1f1f23;
+}
+
+.lumen-btn--primary {
+  background-color: #fafafa;
+  color: #09090b;
+  border: 1px solid #fafafa;
+  font-weight: 600;
+}
+
+.lumen-btn--primary:hover:not(:disabled) {
+  background-color: #e4e4e7;
+}
+
+.lumen-btn--ghost {
+  background-color: transparent;
+  color: #a1a1aa;
+  border: 1px solid transparent;
+}
+
+.lumen-btn--ghost:hover:not(:disabled) {
+  background-color: #141417;
+  color: #fafafa;
+}
+
+.liquid-btn:disabled,
+.lumen-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.glass-input,
+.lumen-input {
+  width: 100%;
+  height: 2.5rem;
+  background-color: #121214;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  color: #fafafa;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0 0.75rem;
+  outline: none;
+  transition: border-color 120ms ease;
+}
+
+.glass-input::placeholder,
+.lumen-input::placeholder {
+  color: #71717a;
+  font-weight: 400;
+}
+
+.glass-input:focus,
+.lumen-input:focus {
+  border-color: #52525b;
+  outline: none;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #a1a1aa;
+  background-color: #121214;
+  border: 1px solid #222225;
+  transition: color 120ms ease, background-color 120ms ease, opacity 120ms ease;
+}
+
+.tag-chip:hover:not(:disabled) {
+  background-color: #18181b;
+  color: #fafafa;
+}
+
+.tag-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tag-chip[aria-pressed="true"] {
+  background-color: #fafafa;
+  border-color: #fafafa;
+  color: #09090b;
+  font-weight: 600;
+}
+
+.tag-chip__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.glass-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.82);
+}
+
+.heatmap-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid #18181b;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+</file>
+
+<file path="src/App.css">
+.counter {
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+  margin-bottom: 24px;
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.hero {
+  position: relative;
+
+  .base,
+  .framework,
+  .vite {
+    inset-inline: 0;
+    margin: 0 auto;
+  }
+
+  .base {
+    width: 170px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .framework,
+  .vite {
+    position: absolute;
+  }
+
+  .framework {
+    z-index: 1;
+    top: 34px;
+    height: 28px;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
+      scale(1.4);
+  }
+
+  .vite {
+    z-index: 0;
+    top: 107px;
+    height: 26px;
+    width: auto;
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
+      scale(0.8);
+  }
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px 24px;
+    gap: 18px;
+  }
+}
+
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+
+  & > div {
+    flex: 1 1 0;
+    padding: 32px;
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+    }
+  }
+
+  .icon {
+    margin-bottom: 16px;
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+
+  .logo {
+    height: 18px;
+  }
+
+  a {
+    color: var(--text-h);
+    font-size: 16px;
+    border-radius: 6px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 6px 12px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: box-shadow 0.3s;
+
+    &:hover {
+      box-shadow: var(--shadow);
+    }
+    .button-icon {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    li {
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    a {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+  @media (max-width: 1024px) {
+    height: 48px;
+  }
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    border: 5px solid transparent;
+  }
+
+  &::before {
+    left: 0;
+    border-left-color: var(--border);
+  }
+  &::after {
+    right: 0;
+    border-right-color: var(--border);
+  }
+}
+</file>
+
+<file path="src/App.jsx">
+import { useCallback, useEffect, useState } from 'react'
+import { AiAdvisorWidget } from './components/ai/AiAdvisorWidget'
+import { AppShell } from './components/layout/AppShell'
+import { HabitsDashboard } from './components/habits/HabitsDashboard'
+import { LiquidLensFilters } from './components/liquid/LiquidLensFilters'
+import { SleepDashboard } from './components/sleep/SleepDashboard'
+import { ThemeProvider } from './context/ThemeContext'
+import { api, ensureSession } from './lib/api'
+
+export default function App() {
+  const [tab, setTab] = useState('habits')
+  const [advisorOpen, setAdvisorOpen] = useState(false)
+  const [user, setUser] = useState(null)
+  const [habits, setHabits] = useState([])
+  const [categories, setCategories] = useState([])
+  const [matrix, setMatrix] = useState(null)
+  const [sleepStats, setSleepStats] = useState(null)
+  const [error, setError] = useState('')
+
+  const refresh = useCallback(async () => {
+    const [nextHabits, nextMatrix, nextStats, nextCategories] = await Promise.all([
+      api.habits(),
+      api.matrix(),
+      api.sleepStats(),
+      api.categories(),
+    ])
+    setHabits(nextHabits?.data ?? nextHabits ?? [])
+    setMatrix(nextMatrix?.data ?? nextMatrix)
+    setSleepStats(nextStats?.data ?? nextStats)
+    setCategories(nextCategories?.data ?? nextCategories ?? [])
+  }, [])
+
+  useEffect(() => {
+    ensureSession()
+      .then((profile) => {
+        setUser(profile)
+        return refresh()
+      })
+      .catch((err) => setError(err.message || 'Не удалось подключить API'))
+  }, [refresh])
+
+  return (
+    <ThemeProvider>
+      <LiquidLensFilters />
+      <AppShell
+        tab={tab}
+        setTab={setTab}
+        user={user}
+        onOpenAdvisor={() => setAdvisorOpen(true)}
+      >
+        {error ? (
+          <div className="liquid-glass-card p-6">
+            {error}. Проверьте, что в Open Server Panel запущен домен{' '}
+            <code>http://habit-sleep-tracker.local</code>.
+          </div>
+        ) : tab === 'sleep' ? (
+          <SleepDashboard
+            stats={sleepStats}
+            onRefresh={refresh}
+            onOpenAdvisor={() => setAdvisorOpen(true)}
+          />
+        ) : (
+          <HabitsDashboard
+            habits={habits}
+            categories={categories}
+            matrix={matrix}
+            onRefresh={refresh}
+            onHabitsChange={setHabits}
+            onOpenAdvisor={() => setAdvisorOpen(true)}
+          />
+        )}
+      </AppShell>
+
+      <AiAdvisorWidget
+        open={advisorOpen}
+        onOpen={() => setAdvisorOpen(true)}
+        onClose={() => setAdvisorOpen(false)}
+        sleepStats={sleepStats}
+        habits={habits}
+        matrix={matrix}
+        onRefreshData={refresh}
+        onHabitsChange={setHabits}
+      />
+    </ThemeProvider>
+  )
+}
+</file>
+
+<file path="src/index.css">
+@import "tailwindcss";
+@import "./styles/liquid.css";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+</file>
+
+<file path="src/main.jsx">
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+</file>
+
+<file path=".gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path=".oxlintrc.json">
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "oxc"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+</file>
+
+<file path="index.html">
+<!doctype html>
+<html lang="ru" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Lumen — Habit & Sleep Tracker</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="package.json">
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "framer-motion": "^14.4.0",
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "recharts": "^3.10.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.88.0",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
+  }
+}
+</file>
+
+<file path="README.md">
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the Oxlint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+</file>
+
+<file path="vite.config.js">
+import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://habit-sleep-tracker.local',
+        changeOrigin: true,
+      },
+      '/sanctum': {
+        target: 'http://habit-sleep-tracker.local',
+        changeOrigin: true,
+      },
+    },
+  },
+})
+</file>
+
+</files>

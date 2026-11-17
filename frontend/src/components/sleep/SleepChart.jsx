@@ -1,4 +1,5 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { useTheme } from '../../context/ThemeContext'
 
 function MonochromeTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null
@@ -21,6 +22,12 @@ function MonochromeTooltip({ active, payload, label }) {
 }
 
 export function SleepChart({ chart }) {
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
+  const strokeColor = isLight ? '#18181b' : '#ededed'
+  const gridColor = isLight ? '#e4e4e7' : '#18181b'
+  const fillColor = isLight ? '#18181b' : '#e4e4e7'
+
   return (
     <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4">
       <div className="mb-3 flex items-center justify-between">
@@ -37,11 +44,11 @@ export function SleepChart({ chart }) {
           <AreaChart data={chart} margin={{ top: 10, right: 8, left: -18, bottom: 0 }}>
             <defs>
               <linearGradient id="monoSleepFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#e4e4e7" stopOpacity={0.22} />
-                <stop offset="100%" stopColor="#e4e4e7" stopOpacity={0} />
+                <stop offset="0%" stopColor={fillColor} stopOpacity={isLight ? 0.14 : 0.22} />
+                <stop offset="100%" stopColor={fillColor} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="#18181b" vertical={false} />
+            <CartesianGrid stroke={gridColor} vertical={false} />
             <XAxis
               dataKey="label"
               tick={{ fill: '#71717a', fontSize: 12 }}
@@ -63,11 +70,11 @@ export function SleepChart({ chart }) {
             <Area
               type="monotone"
               dataKey="hours"
-              stroke="#ededed"
+              stroke={strokeColor}
               fill="url(#monoSleepFill)"
               strokeWidth={2}
-              dot={{ r: 3, fill: '#ededed', strokeWidth: 0 }}
-              activeDot={{ r: 5, fill: '#ffffff', stroke: '#09090b', strokeWidth: 2 }}
+              dot={{ r: 3, fill: strokeColor, strokeWidth: 0 }}
+              activeDot={{ r: 5, fill: strokeColor, stroke: isLight ? '#ffffff' : '#09090b', strokeWidth: 2 }}
               animationDuration={400}
             />
           </AreaChart>

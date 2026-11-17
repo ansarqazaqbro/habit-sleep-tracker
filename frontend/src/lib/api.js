@@ -53,8 +53,29 @@ async function request(path, options = {}, retried = false) {
     return request(path, options, true)
   }
 
-  const payload = await response.json().catch(() => ({}))
-  if (!response.ok) {
+  const contentType = response.headers.get('content-type') || ''
+  let payload = {}
+  try {
+    const text = await response.text()
+    payload = text ? JSON.parse(text) : {}
+  } catch {
+    if (response.ok && !contentType.includes('application/json')) {
+      throw new Error('Сервер API вернул некорректный ответ (не JSON). Проверьте, что бэкенд запущен.')
+    }
+    payload = {}
+  }
+
+  // Если сервер вернул ошибку Laravel/БД со статусом 200 (особенность прокси/OSPanel) — тоже считаем это ошибкой
+  const isBackendException = Boolean(payload?.exception)
+  const isUnauthenticated = payload?.message === 'Unauthenticated.'
+
+  if (isUnauthenticated && !retried && path !== '/auth/demo') {
+    localStorage.removeItem(TOKEN_KEY)
+    await ensureSession()
+    return request(path, options, true)
+  }
+
+  if (!response.ok || isBackendException || isUnauthenticated) {
     const firstError = payload.errors ? Object.values(payload.errors)[0]?.[0] : null
     const error = new Error(firstError || payload.message || 'Не удалось выполнить запрос к серверу')
     error.status = response.status

@@ -4,14 +4,14 @@ import { playHabitPop } from '../../lib/sound'
 const WEEKDAY_SHORT = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
 export function HabitCard({ habit, onToggle, onDelete }) {
-  const categories = habit.categories || []
+  const categories = Array.isArray(habit?.categories) ? habit.categories : []
   const completed =
     habit.completed_this_week ?? habit.week?.completed ?? (habit.completed_today ? 1 : 0)
   const target =
     habit.target_days_per_week ?? habit.week?.target ?? habit.target_frequency ?? 7
   const percent = Math.min(100, Math.round((completed / Math.max(1, target)) * 100))
   const streak = habit.streak_count ?? habit.streak ?? 0
-  const weekDays = habit.week?.days || []
+  const weekDays = Array.isArray(habit?.week?.days) ? habit.week.days : []
 
   return (
     <div className="flex flex-col justify-between rounded-[10px] border border-[#222225] bg-[#0d0d0e] p-4 transition-colors hover:border-[#2e2e33]">

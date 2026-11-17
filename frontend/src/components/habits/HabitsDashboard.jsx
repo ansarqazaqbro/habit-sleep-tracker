@@ -61,13 +61,16 @@ export function HabitsDashboard({
   const [quickDays, setQuickDays] = useState(7)
   const [quickSaving, setQuickSaving] = useState(false)
 
-  const completedToday = habits.filter((h) => h.completed_today).length
-  const totalActive = habits.length
-  const weeklyDone = habits.reduce(
+  const safeHabits = Array.isArray(habits) ? habits : []
+  const safeCategories = Array.isArray(categories) ? categories : []
+
+  const completedToday = safeHabits.filter((h) => h.completed_today).length
+  const totalActive = safeHabits.length
+  const weeklyDone = safeHabits.reduce(
     (acc, h) => acc + (h.completed_this_week ?? h.week?.completed ?? 0),
     0,
   )
-  const weeklyTarget = habits.reduce(
+  const weeklyTarget = safeHabits.reduce(
     (acc, h) => acc + (h.target_days_per_week ?? h.week?.target ?? h.target_frequency ?? 7),
     0,
   )
@@ -78,16 +81,17 @@ export function HabitsDashboard({
       const created = response?.data ?? response
       if (created && created.id) {
         onHabitsChange?.((prev) => {
-          const exists = prev.some((item) => item.id === created.id)
-          return exists ? prev.map((item) => (item.id === created.id ? created : item)) : [...prev, created]
+          const list = Array.isArray(prev) ? prev : []
+          const exists = list.some((item) => item.id === created.id)
+          return exists ? list.map((item) => (item.id === created.id ? created : item)) : [...list, created]
         })
       }
       setOpen(false)
       await onRefresh?.()
       return created
     } catch {
-      const fallback = buildOptimisticHabit(payload, categories)
-      onHabitsChange?.((prev) => [...prev, fallback])
+      const fallback = buildOptimisticHabit(payload, safeCategories)
+      onHabitsChange?.((prev) => [...(Array.isArray(prev) ? prev : []), fallback])
       setOpen(false)
       return fallback
     }
@@ -104,7 +108,7 @@ export function HabitsDashboard({
         title: trimmed,
         target_frequency: Number(quickDays),
         target_days_per_week: Number(quickDays),
-        category_ids: categories[0] ? [categories[0].id] : [],
+        category_ids: safeCategories[0] ? [safeCategories[0].id] : [],
       })
       setQuickTitle('')
       setQuickDays(7)
@@ -156,7 +160,7 @@ export function HabitsDashboard({
         <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
           <div className="text-xs font-medium text-[#a1a1aa]">Лучшая серия</div>
           <div className="mt-1 font-mono text-lg font-semibold text-[#fafafa]">
-            🔥 {habits.reduce((max, h) => Math.max(max, h.best_streak || 0), 0)} дн.
+            🔥 {safeHabits.reduce((max, h) => Math.max(max, h.best_streak || 0), 0)} дн.
           </div>
         </div>
         <div className="rounded-[10px] border border-[#222225] bg-[#0d0d0e] px-3.5 py-2.5">
@@ -212,13 +216,13 @@ export function HabitsDashboard({
 
       <NewHabitModal
         open={open}
-        categories={categories}
+        categories={safeCategories}
         onClose={() => setOpen(false)}
         onSave={createHabit}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-        {habits.map((habit) => (
+        {safeHabits.map((habit) => (
           <HabitCard
             key={habit.id}
             habit={habit}

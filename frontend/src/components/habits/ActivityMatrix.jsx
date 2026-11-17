@@ -1,14 +1,18 @@
-function cellColor(value) {
-  if (value == null) return '#09090b'
-  if (value <= 0) return '#121214'
-  if (value < 0.35) return '#27272a'
-  if (value < 0.65) return '#52525b'
-  if (value < 0.9) return '#a1a1aa'
-  return '#ededed'
+import { useTheme } from '../../context/ThemeContext'
+
+function cellColor(value, isLight) {
+  if (value == null) return isLight ? '#f4f4f5' : '#09090b'
+  if (value <= 0) return isLight ? '#ebedf0' : '#121214'
+  if (value < 0.35) return isLight ? '#9be9a8' : '#0e4429'
+  if (value < 0.65) return isLight ? '#40c463' : '#006d32'
+  if (value < 0.9) return isLight ? '#30a14e' : '#26a641'
+  return isLight ? '#216e39' : '#39d353'
 }
 
 export function ActivityMatrix({ matrix }) {
-  const days = matrix?.days || []
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
+  const days = Array.isArray(matrix?.days) ? matrix.days : []
   const columns = []
   for (let i = 0; i < days.length; i += 7) {
     columns.push(days.slice(i, i + 7))
@@ -31,7 +35,7 @@ export function ActivityMatrix({ matrix }) {
             <span
               key={value}
               className="heatmap-cell inline-block"
-              style={{ backgroundColor: cellColor(value) }}
+              style={{ backgroundColor: cellColor(value, isLight) }}
             />
           ))}
           <span>больше</span>
@@ -45,7 +49,7 @@ export function ActivityMatrix({ matrix }) {
                 key={day.date}
                 title={`${day.date}: ${Math.round((day.value || 0) * 100)}%`}
                 className="heatmap-cell"
-                style={{ backgroundColor: cellColor(day.value) }}
+                style={{ backgroundColor: cellColor(day.value, isLight) }}
               />
             ))}
           </div>

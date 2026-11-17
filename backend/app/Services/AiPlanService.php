@@ -241,8 +241,10 @@ class AiPlanService
 
         // 4. Habit creation intent ("добавь мне дыхание перед сном", "создай привычку ...")
         if (preg_match('/(добав[ьи]|созда[йть]|включ[иь]|введ[иь])/u', $lower)) {
+            $beforeSleep = str_contains($lower, 'перед сном') || str_contains($lower, 'до сна') || str_contains($lower, 'на ночь');
+            $time = $this->extractTime($message) ?? ($beforeSleep ? '21:40' : '08:00');
+
             if (str_contains($lower, 'дыхан')) {
-                $time = $this->extractTime($message) ?? '21:40';
                 $calls[] = [
                     'name' => 'create_habit',
                     'arguments' => [
@@ -253,17 +255,14 @@ class AiPlanService
                     ],
                 ];
                 $notes[] = "Добавил вечернюю практику «Дыхание 4-7-8» на {$time} (7 дн./нед.) для снижения кортизола перед сном.";
-            } elseif (preg_match('/(?:добав[ьи]|созда[йть])\s+(?:мне\s+)?(?:привычк[уи]\s+)?([а-яёa-z0-9\s\-]{3,55}?)(?:\s+и\s+|\s+смест|\s+перенес|[,.!?;]|$)/iu', $message, $cm)) {
-                $rawTitle = trim($cm[1]);
-                $rawTitle = preg_replace('/\s+перед\s+сном$/iu', '', $rawTitle) ?: $rawTitle;
-                $title = mb_strtoupper(mb_substr($rawTitle, 0, 1)).mb_substr($rawTitle, 1);
-                $time = $this->extractTime($message) ?? (str_contains($lower, 'перед сном') ? '21:40' : '08:00');
+            } elseif (preg_match('/(?:добав[ьи]|созда[йть]|включ[иь]|введ[иь])\s+(.+?)(?:\s+и\s+смест|\s+и\s+перенес|[.!?;]|$)/iu', $message, $cm)) {
+                $title = $this->normalizeHabitTitle($cm[1], $beforeSleep);
 
                 $calls[] = [
                     'name' => 'create_habit',
                     'arguments' => [
                         'title' => "{$title} ({$time})",
-                        'category' => str_contains($lower, 'перед сном') ? 'sleep' : 'body',
+                        'category' => $beforeSleep ? 'sleep' : 'body',
                         'target_days_per_week' => 7,
                         'frequency' => "daily ({$time})",
                     ],
@@ -552,6 +551,46 @@ class AiPlanService
         }
 
         return $habits->first();
+    }
+
+    private function normalizeHabitTitle(string $raw, bool $beforeSleep = false): string
+    {
+        $lower = mb_strtolower($raw, 'UTF-8');
+
+        // Частые бытовые сценарии приводим к коротким и понятным названиям
+        if (preg_match('/(вод[уыа]|попить|выпи[тьл])/u', $lower) && str_contains($lower, 'вод')) {
+            return $beforeSleep ? 'Выпить воды перед сном' : 'Стакан воды';
+        }
+        if (str_contains($lower, 'чтен') || str_contains($lower, 'книг')) {
+            return 'Чтение 20 минут';
+        }
+        if (str_contains($lower, 'прогул') || str_contains($lower, 'шаг')) {
+            return 'Прогулка 20 минут';
+        }
+        if (str_contains($lower, 'размин') || str_contains($lower, 'зарядк')) {
+            return 'Разминка 10 минут';
+        }
+        if (str_contains($lower, 'медитац')) {
+            return 'Медитация 10 минут';
+        }
+
+        // Убираем вводные слова, время и мусор, оставляя суть привычки
+        $cleaned = preg_replace(
+            '/\b(мне|пожалуйста|помоги|нужно|надо|хочу|трекер|привычк[уаи]?|такой|такую|такое|чтобы|я|перед\s+сном|до\s+сна|на\s+ночь|вечером|утром)\b/iu',
+            ' ',
+            $raw,
+        ) ?? $raw;
+        $cleaned = preg_replace('/\b([01]?\d|2[0-3])[:.]([0-5]\d)\b/u', ' ', $cleaned) ?? $cleaned;
+        $cleaned = trim(preg_replace('/\s+/u', ' ', $cleaned) ?? '', " \t\n\r\0\x0B,-–—.");
+
+        // Защита от пустых строк, цифр или битой кодировки (?????)
+        if (! mb_check_encoding($cleaned, 'UTF-8') || ! preg_match('/[\p{Cyrillic}a-zA-Z]{2,}/u', $cleaned)) {
+            return $beforeSleep ? 'Вечерний ритуал' : 'Полезная привычка';
+        }
+
+        $cleaned = mb_substr($cleaned, 0, 48, 'UTF-8');
+
+        return mb_strtoupper(mb_substr($cleaned, 0, 1, 'UTF-8'), 'UTF-8').mb_substr($cleaned, 1, null, 'UTF-8');
     }
 
     private function extractTime(string $text): ?string
