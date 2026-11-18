@@ -12,10 +12,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Gate;
 
+/**
+ * REST-контроллер для логирования сна и получения недельной аналитики.
+ */
 class SleepController extends Controller
 {
     public function __construct(private readonly SleepAnalyticsService $analytics) {}
 
+    /**
+     * Возвращает последние 60 записей сна пользователя в порядке убывания даты.
+     */
     public function index(Request $request): AnonymousResourceCollection
     {
         $logs = $request->user()
@@ -27,6 +33,9 @@ class SleepController extends Controller
         return SleepLogResource::collection($logs);
     }
 
+    /**
+     * Создаёт или обновляет запись сна за указанную дату (по умолчанию — за сегодня).
+     */
     public function store(StoreSleepLogRequest $request): SleepLogResource
     {
         $data = $request->validated();
@@ -46,6 +55,9 @@ class SleepController extends Controller
         return new SleepLogResource($log->refresh());
     }
 
+    /**
+     * Возвращает конкретную запись сна.
+     */
     public function show(SleepLog $sleep): SleepLogResource
     {
         Gate::authorize('view', $sleep);
@@ -53,6 +65,9 @@ class SleepController extends Controller
         return new SleepLogResource($sleep);
     }
 
+    /**
+     * Обновляет запись сна и пересчитывает длительность в минутах.
+     */
     public function update(StoreSleepLogRequest $request, SleepLog $sleep): SleepLogResource
     {
         Gate::authorize('update', $sleep);
@@ -68,6 +83,9 @@ class SleepController extends Controller
         return new SleepLogResource($sleep->refresh());
     }
 
+    /**
+     * Удаляет запись сна.
+     */
     public function destroy(SleepLog $sleep): JsonResponse
     {
         Gate::authorize('delete', $sleep);
@@ -77,6 +95,9 @@ class SleepController extends Controller
         return response()->json(status: 204);
     }
 
+    /**
+     * Возвращает сводную статистику сна за последние 7 дней.
+     */
     public function stats(Request $request): JsonResponse
     {
         return response()->json($this->analytics->getWeeklySummary($request->user()->id));
