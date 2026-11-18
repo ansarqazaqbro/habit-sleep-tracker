@@ -67,6 +67,9 @@ class AiAdviceController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * Подтверждает предложенное AI-консультантом действие.
+     */
     public function confirmAction(Request $request, string $action): JsonResponse
     {
         $updated = $this->planner->confirm($request->user(), $action);
@@ -75,6 +78,9 @@ class AiAdviceController extends Controller
         return response()->json(['data' => $updated]);
     }
 
+    /**
+     * Отменяет ранее выполненное AI-консультантом действие.
+     */
     public function undoAction(Request $request, string $action): JsonResponse
     {
         $updated = $this->planner->undo($request->user(), $action);
