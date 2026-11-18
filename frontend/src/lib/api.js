@@ -10,6 +10,14 @@ function headers() {
   }
 }
 
+/**
+ * Выполняет fetch-запрос с ограничением по времени (по умолчанию 15 секунд).
+ *
+ * @param {string} url
+ * @param {RequestInit} [options]
+ * @param {number} [timeoutMs]
+ * @returns {Promise<Response>}
+ */
 async function fetchWithTimeout(url, options = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
   const controller = new AbortController()
   const timer = setTimeout(() => controller.abort(), timeoutMs)
@@ -86,6 +94,11 @@ async function request(path, options = {}, retried = false) {
   return payload
 }
 
+/**
+ * Гарантирует наличие активной Sanctum-сессии (при необходимости создаёт демо-сессию).
+ *
+ * @returns {Promise<object>}
+ */
 export async function ensureSession() {
   if (!localStorage.getItem(TOKEN_KEY)) {
     const data = await request('/auth/demo', { method: 'POST' }, true)
