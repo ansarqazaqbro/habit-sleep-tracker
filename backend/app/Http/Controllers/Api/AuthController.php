@@ -9,8 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * Контроллер аутентификации и управления Sanctum-токенами SPA.
+ */
 class AuthController extends Controller
 {
+    /**
+     * Регистрирует нового пользователя и выдаёт токен доступа.
+     */
     public function register(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -25,6 +31,9 @@ class AuthController extends Controller
         return response()->json($this->tokenPayload($user), 201);
     }
 
+    /**
+     * Создаёт или возвращает демо-пользователя и перевыпускает SPA-токен.
+     */
     public function demo(): JsonResponse
     {
         $user = User::query()->firstOrCreate(
@@ -40,6 +49,9 @@ class AuthController extends Controller
         return response()->json($this->tokenPayload($user));
     }
 
+    /**
+     * Выполняет вход по email и паролю и выдаёт Sanctum-токен.
+     */
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
@@ -56,11 +68,17 @@ class AuthController extends Controller
         return response()->json($this->tokenPayload($user));
     }
 
+    /**
+     * Возвращает профиль текущего аутентифицированного пользователя.
+     */
     public function me(Request $request): JsonResponse
     {
         return response()->json($this->present($request->user()));
     }
 
+    /**
+     * Отзывает текущий токен доступа пользователя.
+     */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()?->delete();
