@@ -48,3 +48,19 @@ npm run dev
 - Темы: Vision Dark, Vision Light, Aurora Gradient
 - Сон: модалка, график, рекомендации недели
 - Привычки: стрики и тепловая матрица
+
+## Структура проекта
+
+- `backend/` — Laravel 13 REST API (контроллеры, сервисы, политики, тесты)
+- `frontend/` — React 19 + Vite SPA в стиле visionOS / liquid glass
+- `bruno_collection/` — коллекция HTTP-запросов для Bruno
+- `docs/` — документация по API и архитектуре
+
+## Тестирование
+
+```bash
+cd backend
+php artisan test
+```
+
+Подробнее о разработке и структуре читайте в [CONTRIBUTING.md](CONTRIBUTING.md) и [CHANGELOG.md](CHANGELOG.md).
