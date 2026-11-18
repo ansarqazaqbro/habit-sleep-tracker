@@ -29,6 +29,7 @@ function tone({ type = 'sine', freq = 440, duration = 0.12, gain = 0.05, slide =
   osc.stop(c.currentTime + duration + 0.02)
 }
 
+/** Инициализирует или возобновляет Web Audio контекст после пользовательского жеста. */
 export function unlockAudio() {
   try {
     audio()
@@ -37,15 +38,18 @@ export function unlockAudio() {
   }
 }
 
+/** Воспроизводит короткий стеклянный клик при нажатии на элементы интерфейса. */
 export function playGlassClick() {
   tone({ type: 'triangle', freq: 980, duration: 0.07, gain: 0.035 })
 }
 
+/** Воспроизводит мягкий поп-звук при отметке выполнения привычки. */
 export function playHabitPop() {
   tone({ type: 'sine', freq: 420, duration: 0.11, gain: 0.06, slide: 220 })
   setTimeout(() => tone({ type: 'triangle', freq: 720, duration: 0.08, gain: 0.03 }), 40)
 }
 
+/** Воспроизводит гармоничный аккорд при сохранении записи сна. */
 export function playSleepChime() {
   tone({ type: 'sine', freq: 523.25, duration: 0.18, gain: 0.045 })
   setTimeout(() => tone({ type: 'sine', freq: 659.25, duration: 0.22, gain: 0.04 }), 90)
