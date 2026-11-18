@@ -8,6 +8,11 @@ const ThemeContext = createContext({
   toggleTheme: () => {},
 })
 
+/**
+ * Провайдер темы оформления (`dark` / `light`) с сохранением выбора в localStorage.
+ *
+ * @param {{ children: import('react').ReactNode }} props
+ */
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     try {
@@ -41,6 +46,9 @@ export function ThemeProvider({ children }) {
   )
 }
 
+/**
+ * Возвращает текущую тему, сеттер и функцию переключения темы.
+ */
 export function useTheme() {
   return useContext(ThemeContext)
 }
