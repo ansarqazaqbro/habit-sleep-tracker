@@ -77,6 +77,11 @@ class StreakService
             ->values();
     }
 
+    /**
+     * Вычисляет максимальную серию подряд идущих дней из отсортированных дат.
+     *
+     * @param  Collection<int, string>  $dates
+     */
     private function longestStreak(Collection $dates): int
     {
         $best = 0;

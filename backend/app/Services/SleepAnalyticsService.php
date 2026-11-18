@@ -95,6 +95,9 @@ class SleepAnalyticsService
         return (int) round($regular / $bedMinutes->count() * 100);
     }
 
+    /**
+     * Преобразует время HH:MM в минуты от полудня; время до 12:00 сдвигается на +24 часа.
+     */
     private function bedTimeMinutes(string $time): int
     {
         [$hours, $minutes] = array_map('intval', explode(':', $time));
